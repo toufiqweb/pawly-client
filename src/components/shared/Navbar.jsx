@@ -15,7 +15,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-2 text-2xl font-bold cursor-pointer hover:text-primary transition-colors">
-            🐾 PetAdopt
+            🐾 Pawly
           </div>
 
           {/* Desktop Menu */}
