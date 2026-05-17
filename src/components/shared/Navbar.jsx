@@ -1,5 +1,5 @@
 "use client";
-import { Menu, User, X } from "lucide-react";
+import { Menu, PawPrint, User, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { ThemeSwitch } from "../ui/ThemeSwitch";
@@ -15,7 +15,8 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-2 text-2xl font-bold cursor-pointer hover:text-primary transition-colors">
-            🐾 Pawly
+            <PawPrint className="text-primary w-7 h-7" />
+            <span>Pawly</span>
           </div>
 
           {/* Desktop Menu */}
@@ -28,7 +29,10 @@ const Navbar = () => {
             {/* Theme Toggle */}
             <ThemeSwitch />
 
-            <Link href="/login" className="hidden md:block px-4 py-2 rounded-xl bg-primary text-primary-foreground font-medium hover:shadow-lg hover:shadow-primary/30 transition-all  ">
+            <Link
+              href="/login"
+              className="hidden md:block px-4 py-2 rounded-xl bg-primary text-primary-foreground font-medium hover:shadow-lg hover:shadow-primary/30 transition-all  "
+            >
               <div className="flex justify-center items-center gap-1">
                 <User size={20} />
                 <span>Get Started</span>
