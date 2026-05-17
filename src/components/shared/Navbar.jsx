@@ -16,7 +16,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center gap-2 text-2xl font-bold cursor-pointer hover:text-primary transition-colors">
             <PawPrint className="text-primary w-7 h-7" />
-            <span>Pawly</span>
+            <span style={{ fontFamily: "var(--font-poppins)" }}>Pawly</span>
           </div>
 
           {/* Desktop Menu */}

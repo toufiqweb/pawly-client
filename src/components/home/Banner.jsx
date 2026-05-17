@@ -22,9 +22,8 @@ const Banner = () => {
     "https://i.pinimg.com/736x/0d/e2/65/0de265d61e0ee104f5baf49b11dcf040.jpg",
   ];
 
- 
   return (
-    <section className="relative max-w-7xl mx-auto overflow-hidden rounded-[32px] my-8 lg:my-12 border border-border bg-background shadow-2xl">
+    <section className="relative max-w-7xl xl:mx-auto overflow-hidden rounded-[32px] my-8 lg:my-12 border border-border bg-background shadow-2xl mx-3">
       {/* Background Slider */}
       <Swiper
         modules={[Pagination, Autoplay]}
@@ -80,37 +79,22 @@ const Banner = () => {
                 repeat: Infinity,
                 ease: "linear",
               }}
-              className="
-                  absolute inset-0
-                  bg-[conic-gradient(from_0deg,transparent,rgba(253,176,52,0.9),transparent)]
-                "
+              className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent,rgba(253,176,52,0.9),transparent)]"
             />
 
             {/* Content */}
-            <div
-              className="
-                  relative z-10
-                  inline-flex items-center gap-2
-                  rounded-full
-                  bg-card/80
-                  backdrop-blur-xl
-                  px-5 py-2
-                  text-sm
-                  text-[#2b0b0a] dark:text-foreground
-                  shadow-lg
-                "
-            >
+            <div className="relative z-10 inline-flex items-center gap-2 rounded-full bg-card/80 backdrop-blur-xl px-5 py-2 text-sm text-[#2b0b0a] dark:text-foreground shadow-lg">
               <PawPrint size={16} className="text-primary" />
               Find Your Forever Friend
             </div>
           </motion.div>
 
-          {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight text-foreground"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-foreground"
+            style={{ fontFamily: "var(--font-poppins)" }}
           >
             Find Your
             <span className="block bg-linear-to-r from-primary via-yellow-300 to-primary bg-clip-text text-transparent">
@@ -123,7 +107,7 @@ const Banner = () => {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className="mt-6 max-w-2xl mx-auto text-base md:text-lg lg:text-xl leading-relaxed text-foreground"
+            className="mt-6 max-w-2xl mx-auto text-base md:text-lg lg:text-xl leading-relaxed text-foreground "
           >
             Adopt a loving pet and give them the forever home they deserve.
             Experience unconditional love, happiness, and companionship that
@@ -142,31 +126,11 @@ const Banner = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }}>
               <Link
                 href="/all-pets"
-                className="
-        group relative inline-flex items-center gap-3
-        overflow-hidden rounded-2xl
-        bg-primary
-        px-8 py-4
-        text-base md:text-lg
-        font-semibold
-        text-primary-foreground
-        shadow-[0_10px_40px_rgba(253,176,52,0.35)]
-        transition-all duration-300
-        hover:shadow-[0_15px_50px_rgba(253,176,52,0.5)]
-      "
+                className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl bg-primary px-8 py-4 text-base md:text-lg font-semibold text-primary-foreground shadow-[0_10px_40px_rgba(253,176,52,0.35)] transition-all duration-300 hover:shadow-[0_15px_50px_rgba(253,176,52,0.5)]"
               >
                 {/* Animated Shine */}
                 <span className="absolute inset-0 overflow-hidden rounded-2xl">
-                  <span
-                    className="
-            absolute left-[-120%] top-0
-            h-full w-[80%]
-            rotate-12
-            bg-white/20 blur-2xl
-            transition-all duration-700
-            group-hover:left-[140%]
-          "
-                  />
+                  <span className="absolute left-[-120%] top-0 h-full w-[80%] rotate-12 bg-white/20 blur-2xl transition-all duration-700 group-hover:left-[140%]" />
                 </span>
 
                 {/* Hover Glow */}
@@ -176,11 +140,7 @@ const Banner = () => {
 
                 <ArrowRight
                   size={20}
-                  className="
-          relative z-10
-          transition-transform duration-300
-          group-hover:translate-x-1
-        "
+                  className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
                 />
               </Link>
             </motion.div>
@@ -189,32 +149,10 @@ const Banner = () => {
             <motion.div whileHover={{ y: -4 }} whileTap={{ scale: 0.97 }}>
               <Link
                 href="/about"
-                className="
-        group relative inline-flex items-center justify-center
-        overflow-hidden rounded-2xl
-        border border-primary/20
-        bg-card/70
-        backdrop-blur-xl
-        px-8 py-4
-        text-base md:text-lg
-        font-semibold
-        text-[#2b0b0a] dark:text-foreground
-        shadow-lg
-        transition-all duration-300
-        hover:border-primary/50
-        hover:shadow-[0_10px_30px_rgba(253,176,52,0.18)]
-      "
+                className="group relative inline-flex items-center justify-center overflow-hidden rounded-2xl border border-primary/20 bg-card/70 backdrop-blur-xl px-8 py-4 text-base md:text-lg font-semibold text-[#2b0b0a] dark:text-foreground shadow-lg transition-all duration-300 hover:border-primary/50 hover:shadow-[0_10px_30px_rgba(253,176,52,0.18)]"
               >
                 {/* Bottom Fill Animation */}
-                <span
-                  className="
-          absolute bottom-0 left-0
-          h-0 w-full
-          bg-primary
-          transition-all duration-300
-          group-hover:h-full
-        "
-                />
+                <span className="absolute bottom-0 left-0 h-0 w-full bg-primary transition-all duration-300 group-hover:h-full" />
 
                 <span className="relative z-10 transition-colors duration-300 group-hover:text-primary-foreground">
                   Learn More
@@ -224,8 +162,6 @@ const Banner = () => {
           </motion.div>
         </div>
       </div>
-
-      
 
       {/* Pagination Styling */}
       <style jsx global>{`
