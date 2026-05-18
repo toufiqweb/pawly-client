@@ -1,48 +1,209 @@
 "use client";
-import { Menu, PawPrint, User, X } from "lucide-react";
+
+import {
+  Menu,
+  PawPrint,
+  User,
+  X,
+  LogOut,
+  Loader2,
+  LayoutDashboard,
+  ChevronDown,
+  HeartHandshake,
+  PlusCircle,
+} from "lucide-react";
+
 import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { ThemeSwitch } from "../ui/ThemeSwitch";
 import NavLinks from "../ui/NavLinks";
 import Link from "next/link";
+import { Button } from "@heroui/react";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const router = useRouter();
+
+  const { data: session, isPending, error } = authClient.useSession();
+
+  const user = session?.user;
+
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            router.push("/login");
+            router.refresh();
+          },
+        },
+      });
+    } catch (err) {
+      console.error("Logout failed:", err);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
 
   return (
-    <nav className="sticky top-0 z-50 bg-card backdrop-blur-xl border-b border-border">
-      <div className="max-w-7xl mx-auto px-6">
+    <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2 text-2xl font-bold cursor-pointer hover:text-primary transition-colors">
-            <PawPrint className="text-primary w-7 h-7" />
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-2xl font-bold hover:text-primary transition-colors"
+          >
+            <div className="p-2 rounded-xl bg-primary/10">
+              <PawPrint className="text-primary w-6 h-6" />
+            </div>
+
             <span style={{ fontFamily: "var(--font-poppins)" }}>Pawly</span>
-          </div>
+          </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             <NavLinks href="/">Home</NavLinks>
+
             <NavLinks href="/all-pets">All Pets</NavLinks>
+
+            {user && (
+              <>
+                <NavLinks href="/my-requests">My Requests</NavLinks>
+
+                <NavLinks href="/add-pet">Add Pet</NavLinks>
+              </>
+            )}
           </div>
 
-          <div className="flex items-center gap-4">
-            {/* Theme Toggle */}
+          {/* Right Side */}
+          <div className="flex items-center gap-3">
             <ThemeSwitch />
 
-            <Link
-              href="/login"
-              className="hidden md:block px-4 py-2 rounded-xl bg-primary text-primary-foreground font-medium hover:shadow-lg hover:shadow-primary/30 transition-all  "
-            >
-              <div className="flex justify-center items-center gap-1">
-                <User size={20} />
-                <span>Login</span>
+            {/* Loading State */}
+            {isPending ? (
+              <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl border border-border bg-muted/40">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span className="text-sm">Loading...</span>
               </div>
-            </Link>
+            ) : error ? (
+              <Button
+                size="sm"
+                variant="flat"
+                color="danger"
+                onPress={() => router.refresh()}
+                className="hidden md:flex"
+              >
+                Retry
+              </Button>
+            ) : user ? (
+              /* Profile Dropdown */
+              <div className="relative hidden md:block">
+                <button
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  className="flex items-center gap-3 border border-border bg-muted/40 hover:bg-muted/70 transition-all rounded-2xl px-3 py-2"
+                >
+                  {user?.image ? (
+                    <Image
+                      src={user.image}
+                      alt={user.name || "User"}
+                      width={40}
+                      height={40}
+                      className="rounded-full object-cover border border-border"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <User className="w-4 h-4 text-primary" />
+                    </div>
+                  )}
+
+                  <div className="text-left hidden lg:block">
+                    <p className="text-sm font-semibold leading-none">
+                      {user?.name}
+                    </p>
+
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {user?.email}
+                    </p>
+                  </div>
+
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${
+                      profileOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Dropdown */}
+                <AnimatePresence>
+                  {profileOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 mt-3 w-64 rounded-2xl border border-border bg-background shadow-2xl overflow-hidden"
+                    >
+                      {/* User Info */}
+                      <div className="p-4 border-b border-border">
+                        <p className="font-semibold">{user?.name}</p>
+
+                        <p className="text-sm text-muted-foreground truncate">
+                          {user?.email}
+                        </p>
+                      </div>
+
+                      {/* Links */}
+                      <div className="p-2">
+                        <Link
+                          href="/dashboard"
+                          className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-muted transition-colors"
+                        >
+                          <LayoutDashboard className="w-4 h-4" />
+                          Dashboard
+                        </Link>
+
+                        <button
+                          onClick={handleLogout}
+                          disabled={isLoggingOut}
+                          className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-destructive/10 text-destructive transition-colors"
+                        >
+                          {isLoggingOut ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <LogOut className="w-4 h-4" />
+                          )}
+
+                          {isLoggingOut ? "Logging out..." : "Logout"}
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              /* Login Button */
+              <Link
+                href="/login"
+                className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-primary text-primary-foreground font-medium hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/20 transition-all duration-300"
+              >
+                <User size={18} />
+                <span>Login</span>
+              </Link>
+            )}
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+              className="md:hidden p-2 rounded-xl hover:bg-muted transition-colors"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -54,23 +215,118 @@ const Navbar = () => {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              initial={{ opacity: 0, maxHeight: 0 }}
-              animate={{ opacity: 1, maxHeight: 500 }}
-              exit={{ opacity: 0, maxHeight: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="md:hidden border-t overflow-hidden py-4 z-10 "
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              className="md:hidden overflow-hidden border-t border-border/50 py-5"
             >
-              <div className="flex flex-col gap-2 px-2">
+              <div className="flex flex-col gap-2">
                 <NavLinks href="/">Home</NavLinks>
+
                 <NavLinks href="/all-pets">All Pets</NavLinks>
 
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="mt-2 w-full px-4 py-3 rounded-xl bg-primary text-primary-foreground font-medium flex items-center justify-center gap-2"
-                >
-                  <User size={20} />
-                  <span>Get Started</span>
-                </button>
+                {user && (
+                  <>
+                    <NavLinks href="/my-requests">
+                      <div className="flex items-center gap-2">
+                        <HeartHandshake className="w-4 h-4" />
+                        My Requests
+                      </div>
+                    </NavLinks>
+
+                    <NavLinks href="/add-pet">
+                      <div className="flex items-center gap-2">
+                        <PlusCircle className="w-4 h-4" />
+                        Add Pet
+                      </div>
+                    </NavLinks>
+
+                    <NavLinks href="/dashboard">
+                      <div className="flex items-center gap-2">
+                        <LayoutDashboard className="w-4 h-4" />
+                        Dashboard
+                      </div>
+                    </NavLinks>
+                  </>
+                )}
+
+                {/* Mobile Auth */}
+                <div className="pt-4">
+                  {isPending ? (
+                    <div className="flex items-center justify-center gap-2 py-3 rounded-xl border border-border bg-muted/40">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Loading...</span>
+                    </div>
+                  ) : error ? (
+                    <Button
+                      fullWidth
+                      color="danger"
+                      variant="flat"
+                      onPress={() => router.refresh()}
+                    >
+                      Failed to load session
+                    </Button>
+                  ) : user ? (
+                    <div className="space-y-3">
+                      {/* User Card */}
+                      <div className="flex items-center gap-3 p-3 rounded-2xl border border-border bg-muted/40">
+                        {user?.image ? (
+                          <Image
+                            src={user.image}
+                            alt={user.name || "User"}
+                            width={45}
+                            height={45}
+                            className="rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center">
+                            <User className="w-5 h-5 text-primary" />
+                          </div>
+                        )}
+
+                        <div>
+                          <p className="font-semibold">{user?.name}</p>
+
+                          <p className="text-sm text-muted-foreground">
+                            {user?.email}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Logout */}
+                      <Button
+                        fullWidth
+                        color="danger"
+                        variant="flat"
+                        onPress={handleLogout}
+                        isDisabled={isLoggingOut}
+                        className="h-12 rounded-xl font-medium"
+                      >
+                        {isLoggingOut ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <LogOut className="w-4 h-4" />
+                        )}
+
+                        <span>
+                          {isLoggingOut ? "Logging out..." : "Logout"}
+                        </span>
+                      </Button>
+                    </div>
+                  ) : (
+                    <Link href="/login">
+                      <Button
+                        fullWidth
+                        className="h-12 rounded-xl font-medium"
+                        color="primary"
+                      >
+                        <User className="w-4 h-4" />
+                        Login
+                      </Button>
+                    </Link>
+                  )}
+                </div>
               </div>
             </motion.div>
           )}

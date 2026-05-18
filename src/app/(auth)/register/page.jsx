@@ -14,20 +14,25 @@ import {
 } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
-export default function RegisterPage() {
+const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const router = useRouter();
   const [error, setError] = useState("");
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-    const form = e.target;
+    const formData = new FormData(e.target);
+    const userData = Object.fromEntries(formData.entries());
+    const { name, email, photo, password, confirmPassword } = userData;
 
-    const password = form.password.value;
-    const confirmPassword = form.confirmPassword.value;
+    // const password = form.password.value;
+    // const confirmPassword = form.confirmPassword.value;
+
 
     setError("");
 
@@ -48,7 +53,33 @@ export default function RegisterPage() {
       return setError("Passwords do not match.");
     }
 
-    console.log("Registration Successful");
+    //console.log("Registration Successful");
+
+    const { data, error } = await authClient.signUp.email(
+      {
+        email, // user email address
+        password, // user password -> min 8 characters by default
+        name, // user display name
+        photo, // User image URL (optional)
+        callbackURL: "/", // A URL to redirect to after the user verifies their email (optional)
+      },
+      {
+        onRequest: (ctx) => {
+          //show loading
+        },
+        onSuccess: (ctx) => {
+          //redirect to the dashboard or sign in page
+          router.push("/");
+        },
+        onError: (ctx) => {
+          // display the error message
+          alert(ctx.error.message);
+        },
+      },
+    );
+
+    // console.log(data, error );
+    
   };
 
   return (
@@ -61,11 +92,13 @@ export default function RegisterPage() {
               Welcome To Pawly!
             </p>
 
-            <h1 className="text-5xl leading-tight font-extrabold text-foreground">
-              Create your <br />
-              account and <br />
-              adopt happiness!
-            </h1>
+            <h2
+              className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-tight"
+              style={{ fontFamily: "var(--font-poppins)" }}
+            >
+              Create your <br /> account and <br />
+              <span className="text-primary"> adopt happiness!</span>
+            </h2>
           </div>
 
           <div className="mt-10 w-full max-w-87.5">
@@ -95,9 +128,7 @@ export default function RegisterPage() {
               REGISTER
             </h2>
 
-            <p className="text-sm text-muted-foreground mt-1">
-              Pawly Adoption
-            </p>
+            <p className="text-sm text-muted-foreground mt-1">Pawly Adoption</p>
           </div>
 
           {/* FORM */}
@@ -150,7 +181,7 @@ export default function RegisterPage() {
                 <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
 
                 <input
-                  type="text"
+                  type="url"
                   name="photo"
                   placeholder="Enter photo URL"
                   required
@@ -241,7 +272,7 @@ export default function RegisterPage() {
             <div className="flex-1 h-px bg-border" />
 
             <span className="text-xs text-muted-foreground whitespace-nowrap">
-              OR LOG IN WITH
+              OR REGISTER WITH
             </span>
 
             <div className="flex-1 h-px bg-border" />
@@ -255,7 +286,7 @@ export default function RegisterPage() {
             </button>
 
             {/* GOOGLE */}
-            <button className=" w-12 h-12 rounded-full bg-card border border-border flex items-center justify-center shadow-sm hover:bg-muted transition-colors ">
+            <button className=" w-12 h-12 rounded-full bg-[#ffffff]  border border-border flex items-center justify-center shadow-sm hover:bg-muted transition-colors ">
               <FcGoogle className="w-5 h-5" />
             </button>
           </div>
@@ -276,4 +307,6 @@ export default function RegisterPage() {
       </div>
     </main>
   );
-}
+};
+
+export default RegisterPage;

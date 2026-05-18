@@ -1,12 +1,37 @@
 "use client";
 
 import Image from "next/image";
-import { PawPrint, Mail, Lock, EyeOff } from "lucide-react";
+import { PawPrint, Mail, Lock, EyeOff, Eye } from "lucide-react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
 
-export default function LoginPage() {
+const LoginPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const userData = Object.fromEntries(formData.entries());
+    const { email, password } = userData;
+    // console.log(userData);
+
+    const { data, error } = await authClient.signIn.email({
+      email,
+      password,
+      callbackURL: "/",
+      rememberMe: false,
+    });
+    if (error) {
+      setError(error.message);
+    } else {
+      setError("");
+    }
+  };
+
   return (
     <main className="min-h-screen bg-background flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-5xl overflow-hidden rounded-xl border border-border bg-card shadow-xl flex flex-col md:flex-row">
@@ -17,11 +42,13 @@ export default function LoginPage() {
               Welcome Back To Pawly!
             </p>
 
-            <h1 className="text-5xl leading-tight font-extrabold text-foreground">
-              Login to meet <br />
-              your new best <br />
-              friend!
-            </h1>
+            <h2
+              className="text-3xl md:text-5xl font-bold text-foreground tracking-tight leading-tight"
+              style={{ fontFamily: "var(--font-poppins)" }}
+            >
+              Login to <br /> meet your new <br />
+              <span className="text-primary"> best friend!</span>
+            </h2>
           </div>
 
           <div className="mt-10 w-full max-w-87.5">
@@ -55,7 +82,7 @@ export default function LoginPage() {
           </div>
 
           {/* FORM */}
-          <form className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-5">
             {/* EMAIL */}
             <div>
               <label className="block text-sm font-medium text-foreground mb-2">
@@ -67,6 +94,7 @@ export default function LoginPage() {
 
                 <input
                   type="email"
+                  name="email"
                   placeholder="user@email.com"
                   className="  w-full h-12 rounded-lg border border-border bg-input-background pl-12 pr-4 text-foreground placeholder:text-muted-foreground outline-none transition-all focus:ring-2 focus:ring-ring focus:border-primary "
                 />
@@ -83,19 +111,29 @@ export default function LoginPage() {
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
 
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="••••••••••••"
+                  name="password"
                   className=" w-full h-12 rounded-lg border border-border bg-input-background  pl-12 pr-12 text-foreground placeholder:text-muted-foreground outline-none transition-all focus:ring-2 focus:ring-ring focus:border-primary "
                 />
 
                 <button
                   type="button"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary cursor-pointer"
                 >
-                  <EyeOff className="w-5 h-5" />
+                  {showPassword ? (
+                    <Eye className="w-5 h-5" />
+                  ) : (
+                    <EyeOff className="w-5 h-5" />
+                  )}
                 </button>
               </div>
             </div>
+            {/* ERROR MESSAGE */}
+            {error && (
+              <p className="text-sm text-destructive font-medium">{error}</p>
+            )}
 
             {/* FORGOT PASSWORD */}
             <div className="text-right">
@@ -137,7 +175,7 @@ export default function LoginPage() {
             </button>
 
             {/* GOOGLE */}
-            <button className=" w-12 h-12 rounded-full bg-card border border-border flex items-center justify-center shadow-sm hover:bg-muted transition-colors ">
+            <button className=" w-12 h-12 rounded-full bg-[#ffffff] border border-border flex items-center justify-center shadow-sm hover:bg-muted transition-colors ">
               <FcGoogle className="w-5 h-5" />
             </button>
           </div>
@@ -150,7 +188,7 @@ export default function LoginPage() {
                 href="/register"
                 className="text-primary font-semibold hover:underline"
               >
-                 Register Here
+                Register Here
               </Link>
             </p>
           </div>
@@ -158,4 +196,6 @@ export default function LoginPage() {
       </div>
     </main>
   );
-}
+};
+
+export default LoginPage;
