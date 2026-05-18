@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PawPrint, Share2, Send } from "lucide-react";
+import { LuFacebook } from "react-icons/lu";
 const Footer = () => {
   return (
     <footer className="bg-card text-foreground border-t border-border py-20">
@@ -21,7 +22,7 @@ const Footer = () => {
               href="#"
               className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition"
             >
-              f
+              <LuFacebook className="w-4 h-4"/>
             </Link>
 
             <Link

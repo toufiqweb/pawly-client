@@ -23,7 +23,7 @@ const Banner = () => {
   ];
 
   return (
-    <section className="relative max-w-7xl xl:mx-auto overflow-hidden rounded-[32px] my-8 lg:my-12 border border-border bg-background shadow-2xl mx-3">
+    <section className="relative  overflow-hidden   border border-border bg-background  ">
       {/* Background Slider */}
       <Swiper
         modules={[Pagination, Autoplay]}
