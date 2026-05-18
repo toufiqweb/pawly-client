@@ -62,14 +62,7 @@ const StatsSection = () => {
 
   return (
     <section className="relative overflow-hidden py-16 md:py-24 bg-background">
-      {/* Background Glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-72 h-72 bg-primary/10 blur-3xl rounded-full" />
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-chart-2/10 blur-3xl rounded-full" />
-      </div>
-
       <div className="relative max-w-7xl mx-auto px-6">
-        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +75,10 @@ const StatsSection = () => {
             Trusted By Pet Lovers
           </span>
 
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4">
+          <h2
+            className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4"
+            style={{ fontFamily: "var(--font-poppins)" }}
+          >
             Making Thousands Of Pets
             <span className="text-primary"> Happy</span>
           </h2>
