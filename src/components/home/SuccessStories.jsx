@@ -55,7 +55,7 @@ const stories = [
 
 const SuccessStories = () => {
   return (
-    <section className="relative overflow-hidden bg-background py-24 px-5 md:px-10">
+    <section className="relative overflow-hidden bg-background py-16 md:py-24 px-5 md:px-10">
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-1/2 -translate-x-1/2 h-125 w-125 rounded-full bg-primary/10 blur-3xl" />

@@ -23,7 +23,7 @@ const WhyAdoptSection = () => {
   ];
 
   return (
-    <section className="w-full py-16 md:py-20 bg-background">
+    <section className="w-full py-16 md:py-24 bg-background">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-14">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary font-medium text-sm mb-5">
