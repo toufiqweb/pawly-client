@@ -1,5 +1,6 @@
 import Banner from "@/components/home/Banner";
 import FAQSection from "@/components/home/FAQSection";
+import HealthSafetySection from "@/components/home/HealthSafetySection";
 import PetCareServices from "@/components/home/PetCareServices";
 import StatsSection from "@/components/home/StatsSection";
 import SuccessStories from "@/components/home/SuccessStories";
@@ -14,6 +15,7 @@ export default function Home() {
       <SuccessStories/>
       <FAQSection/>
       <PetCareServices/>
+      <HealthSafetySection/>
     </div>
   );
 }
