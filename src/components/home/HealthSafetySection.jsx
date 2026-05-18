@@ -34,7 +34,7 @@ export default function HealthSafetySection() {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-16">
+    <section className="max-w-7xl mx-auto py-16 md:py-24 px-4">
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div className="flex flex-col md:flex-row items-stretch">
           {/* Left Content */}

@@ -1,11 +1,279 @@
-import React from 'react';
+// app/register/page.jsx
+"use client";
 
-const RegisterPage = () => {
-    return (
-        <div>
-            <h1> This is the Register page</h1>
+import { useState } from "react";
+import Image from "next/image";
+import {
+  PawPrint,
+  Mail,
+  Lock,
+  EyeOff,
+  Eye,
+  User,
+  ImageIcon,
+} from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
+
+export default function RegisterPage() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [error, setError] = useState("");
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+
+    const password = form.password.value;
+    const confirmPassword = form.confirmPassword.value;
+
+    setError("");
+
+    // PASSWORD VALIDATION
+    if (password.length < 6) {
+      return setError("Password must be at least 6 characters.");
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      return setError("Password must contain at least one uppercase letter.");
+    }
+
+    if (!/[a-z]/.test(password)) {
+      return setError("Password must contain at least one lowercase letter.");
+    }
+
+    if (password !== confirmPassword) {
+      return setError("Passwords do not match.");
+    }
+
+    console.log("Registration Successful");
+  };
+
+  return (
+    <main className="min-h-screen bg-background flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-6xl overflow-hidden rounded-xl border border-border bg-card shadow-xl flex flex-col md:flex-row">
+        {/* LEFT SIDE */}
+        <div className="hidden md:flex md:w-1/2 bg-secondary p-10 flex-col items-center justify-between">
+          <div className="text-center">
+            <p className="text-xs tracking-[3px] uppercase text-primary font-semibold mb-3">
+              Welcome To Pawly!
+            </p>
+
+            <h1 className="text-5xl leading-tight font-extrabold text-foreground">
+              Create your <br />
+              account and <br />
+              adopt happiness!
+            </h1>
+          </div>
+
+          <div className="mt-10 w-full max-w-87.5">
+            <Image
+              src="https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=1200&auto=format&fit=crop"
+              alt="Dog and Cat"
+              width={500}
+              height={500}
+              className="w-full h-auto rounded-md object-cover"
+              priority
+            />
+          </div>
         </div>
-    );
-};
 
-export default RegisterPage;
+        {/* RIGHT SIDE */}
+        <div className="w-full md:w-1/2 bg-background px-8 md:px-14 py-10 flex flex-col justify-center">
+          {/* LOGO */}
+          <div className="flex flex-col items-center mb-8">
+            <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center shadow-md">
+              <PawPrint
+                className="w-8 h-8 text-primary-foreground"
+                fill="currentColor"
+              />
+            </div>
+
+            <h2 className="mt-4 text-2xl font-bold tracking-wide text-foreground">
+              REGISTER
+            </h2>
+
+            <p className="text-sm text-muted-foreground mt-1">
+              Pawly Adoption
+            </p>
+          </div>
+
+          {/* FORM */}
+          <form onSubmit={handleRegister} className="space-y-4">
+            {/* NAME */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Name
+              </label>
+
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Enter your name"
+                  required
+                  className="w-full h-12 rounded-lg  border border-border bg-input-background pl-12 pr-4 text-foreground placeholder:text-muted-foreground outline-none  transition-all focus:ring-2 focus:ring-ring  focus:border-primary"
+                />
+              </div>
+            </div>
+
+            {/* EMAIL */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Email
+              </label>
+
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="user@email.com"
+                  required
+                  className="   w-full h-12 rounded-lg border border-border  bg-input-background  pl-12 pr-4 text-foreground  placeholder:text-muted-foreground  outline-none  transition-all  focus:ring-2 focus:ring-ring  focus:border-primary  "
+                />
+              </div>
+            </div>
+
+            {/* PHOTO URL */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Photo URL
+              </label>
+
+              <div className="relative">
+                <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+
+                <input
+                  type="text"
+                  name="photo"
+                  placeholder="Enter photo URL"
+                  required
+                  className=" w-full h-12 rounded-lg border border-border bg-input-background  pl-12 pr-4  text-foreground placeholder:text-muted-foreground outline-none transition-all focus:ring-2 focus:ring-ring focus:border-primary "
+                />
+              </div>
+            </div>
+
+            {/* PASSWORD */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Password
+              </label>
+
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Enter password"
+                  required
+                  className=" w-full h-12 rounded-lg border border-border bg-input-background  pl-12 pr-12 text-foreground  placeholder:text-muted-foreground outline-none transition-all focus:ring-2 focus:ring-ring focus:border-primary "
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary"
+                >
+                  {showPassword ? (
+                    <Eye className="w-5 h-5" />
+                  ) : (
+                    <EyeOff className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* CONFIRM PASSWORD */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Confirm Password
+              </label>
+
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  placeholder="Confirm password"
+                  required
+                  className=" w-full h-12 rounded-lg border border-border bg-input-background  pl-12 pr-12 text-foreground placeholder:text-muted-foreground  outline-none  transition-all  focus:ring-2 focus:ring-ring  focus:border-primary  "
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary"
+                >
+                  {showConfirmPassword ? (
+                    <Eye className="w-5 h-5" />
+                  ) : (
+                    <EyeOff className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* ERROR MESSAGE */}
+            {error && (
+              <p className="text-sm text-destructive font-medium">{error}</p>
+            )}
+
+            {/* REGISTER BUTTON */}
+            <button
+              type="submit"
+              className="  w-full h-12 rounded-full bg-primary hover:opacity-90 text-primary-foreground font-bold tracking-wide shadow-md transition-all duration-200 flex items-center justify-center gap-2  mt-2  "
+            >
+              REGISTER NOW
+              <PawPrint className="w-4 h-4" fill="currentColor" />
+            </button>
+          </form>
+
+          {/* DIVIDER */}
+          <div className="flex items-center gap-4 my-8">
+            <div className="flex-1 h-px bg-border" />
+
+            <span className="text-xs text-muted-foreground whitespace-nowrap">
+              OR LOG IN WITH
+            </span>
+
+            <div className="flex-1 h-px bg-border" />
+          </div>
+
+          {/* SOCIAL LOGIN */}
+          <div className="flex justify-center gap-5">
+            {/* FACEBOOK */}
+            <button className=" w-12 h-12 rounded-full bg-[#1877F2]  flex items-center justify-center shadow-md hover:scale-105 transition-transform ">
+              <FaFacebook className="w-5 h-5 fill-white" />
+            </button>
+
+            {/* GOOGLE */}
+            <button className=" w-12 h-12 rounded-full bg-card border border-border flex items-center justify-center shadow-sm hover:bg-muted transition-colors ">
+              <FcGoogle className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* LOGIN LINK */}
+          <div className="text-center mt-8">
+            <p className="text-sm text-foreground">
+              Already have an account?{" "}
+              <a
+                href="/login"
+                className="text-primary font-semibold hover:underline"
+              >
+                Login Here
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}

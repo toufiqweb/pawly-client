@@ -35,7 +35,7 @@ const Navbar = () => {
             >
               <div className="flex justify-center items-center gap-1">
                 <User size={20} />
-                <span>Get Started</span>
+                <span>Login</span>
               </div>
             </Link>
 
