@@ -1,11 +1,161 @@
-import React from 'react';
+"use client";
 
-const LoginPage = () => {
-    return (
-        <div>
-            <h1> This is the Login page</h1>
+import Image from "next/image";
+import { PawPrint, Mail, Lock, EyeOff } from "lucide-react";
+import Link from "next/link";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
+
+export default function LoginPage() {
+  return (
+    <main className="min-h-screen bg-background flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-5xl overflow-hidden rounded-xl border border-border bg-card shadow-xl flex flex-col md:flex-row">
+        {/* LEFT SIDE */}
+        <div className="hidden md:flex md:w-1/2 bg-secondary p-10 flex-col items-center justify-between">
+          <div className="text-center">
+            <p className="text-xs tracking-[3px] uppercase text-primary font-semibold mb-3">
+              Welcome Back To Pawly!
+            </p>
+
+            <h1 className="text-5xl leading-tight font-extrabold text-foreground">
+              Login to meet <br />
+              your new best <br />
+              friend!
+            </h1>
+          </div>
+
+          <div className="mt-10 w-full max-w-87.5">
+            <Image
+              src="https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=1200&auto=format&fit=crop"
+              alt="Dog and Cat"
+              width={500}
+              height={500}
+              className="w-full h-auto rounded-md object-cover"
+              priority
+            />
+          </div>
         </div>
-    );
-};
 
-export default LoginPage;
+        {/* RIGHT SIDE */}
+        <div className="w-full md:w-1/2 bg-background px-8 md:px-14 py-10 flex flex-col justify-center">
+          {/* LOGO */}
+          <div className="flex flex-col items-center mb-10">
+            <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center shadow-md">
+              <PawPrint
+                className="w-8 h-8 text-primary-foreground"
+                fill="currentColor"
+              />
+            </div>
+
+            <h2 className="mt-4 text-2xl font-bold tracking-wide text-foreground">
+              LOG IN
+            </h2>
+
+            <p className="text-sm text-muted-foreground mt-1">Pawly Adoption</p>
+          </div>
+
+          {/* FORM */}
+          <form className="space-y-5">
+            {/* EMAIL */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Email Address
+              </label>
+
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+
+                <input
+                  type="email"
+                  placeholder="user@email.com"
+                  className="  w-full h-12 rounded-lg border border-border bg-input-background pl-12 pr-4 text-foreground placeholder:text-muted-foreground outline-none transition-all focus:ring-2 focus:ring-ring focus:border-primary "
+                />
+              </div>
+            </div>
+
+            {/* PASSWORD */}
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Password
+              </label>
+
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+
+                <input
+                  type="password"
+                  placeholder="••••••••••••"
+                  className=" w-full h-12 rounded-lg border border-border bg-input-background  pl-12 pr-12 text-foreground placeholder:text-muted-foreground outline-none transition-all focus:ring-2 focus:ring-ring focus:border-primary "
+                />
+
+                <button
+                  type="button"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <EyeOff className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* FORGOT PASSWORD */}
+            <div className="text-right">
+              <button
+                type="button"
+                className="text-sm text-primary hover:underline"
+              >
+                Forgot Password?
+              </button>
+            </div>
+
+            {/* LOGIN BUTTON */}
+            <button
+              type="submit"
+              className=" w-full h-12 rounded-full bg-primary hover:opacity-90 text-primary-foreground font-bold tracking-wide shadow-md transition-all duration-200 flex items-center justify-center gap-2 "
+            >
+              LOG IN NOW
+              <PawPrint className="w-4 h-4" fill="currentColor" />
+            </button>
+          </form>
+
+          {/* DIVIDER */}
+          <div className="flex items-center gap-4 my-8">
+            <div className="flex-1 h-px bg-border" />
+
+            <span className="text-xs text-muted-foreground whitespace-nowrap">
+              OR LOG IN WITH
+            </span>
+
+            <div className="flex-1 h-px bg-border" />
+          </div>
+
+          {/* SOCIAL LOGIN */}
+          <div className="flex justify-center gap-5">
+            {/* FACEBOOK */}
+
+            <button className=" w-12 h-12 rounded-full bg-[#1877F2]  flex items-center justify-center shadow-md hover:scale-105 transition-transform ">
+              <FaFacebook className="w-5 h-5 fill-white" />
+            </button>
+
+            {/* GOOGLE */}
+            <button className=" w-12 h-12 rounded-full bg-card border border-border flex items-center justify-center shadow-sm hover:bg-muted transition-colors ">
+              <FcGoogle className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* SIGNUP */}
+          <div className="text-center mt-10">
+            <p className="text-sm text-foreground">
+              New to Pawly?{" "}
+              <Link
+                href="/register"
+                className="text-primary font-semibold hover:underline"
+              >
+                 Register Here
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
