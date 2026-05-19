@@ -1,10 +1,10 @@
-"use client";
-
 import Image from "next/image";
 import { Heart, MapPin, ShieldCheck, ArrowRight, PawPrint } from "lucide-react";
+import Link from "next/link";
 
 const PetCard = ({ pet }) => {
   const {
+    _id,
     petName,
     species,
     age,
@@ -122,16 +122,24 @@ const PetCard = ({ pet }) => {
         {/* BUTTONS */}
         <div className="grid grid-cols-2 gap-3 pt-2">
           {/* DETAILS BUTTON */}
-          <button className="flex h-12 items-center justify-center gap-2 rounded-2xl border border-border bg-background font-semibold text-foreground transition-all duration-300 hover:border-primary hover:bg-primary/10 hover:text-primary">
+
+          <Link
+            href={`/all-pets/${_id}`}
+            className="flex h-12 items-center justify-center gap-2 rounded-2xl border border-border bg-background font-semibold text-foreground transition-all duration-300 hover:border-primary hover:bg-primary/10 hover:text-primary"
+          >
             View Details
             <ArrowRight className="h-4 w-4" />
-          </button>
+          </Link>
 
           {/* ADOPT BUTTON */}
-          <button className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-primary font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-[0.98] hover:opacity-90">
+
+          <Link
+            href={`/all-pets/${_id}`}
+            className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-primary font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:scale-[0.98] hover:opacity-90"
+          >
             Adopt Now
             <Heart className="h-4 w-4 fill-current" />
-          </button>
+          </Link>
         </div>
       </div>
     </article>

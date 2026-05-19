@@ -14,7 +14,7 @@ const AllPetsPage = async () => {
 
       <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3  gap-6 p-6">
         {pets.map((pet) => (
-          <PetCard key={pet.id} pet={pet} />
+          <PetCard key={pet?._id} pet={pet} />
         ))}
       </div>
       </div>
