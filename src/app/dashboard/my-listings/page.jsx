@@ -1,11 +1,110 @@
-import React from 'react';
+import Image from "next/image";
+import { Plus } from "lucide-react";
+import ListingCard from "@/components/dashboard/ListingCard";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { getUserListing } from "@/lib/data/pets";
+import Link from "next/link";
 
-const MyListingsPage = () => {
-    return (
+export default async function MyListingsPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  const user = session?.user;
+
+  const listing = await getUserListing(user?.email);
+
+  const availableListing = listing.filter(
+    (list) => list.status === "available",
+  );
+
+  const adoptedListing = listing.filter((list) => list.status === "adopted");
+
+  return (
+    <section className="max-w-7xl mx-auto px-4 md:px-6 py-10 space-y-10 bg-background text-foreground">
+      {/* HEADER */}
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
-            <h1> This is the My Listings page </h1>
-        </div>
-    );
-};
+          <h2
+            className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4 leading-tight"
+            style={{ fontFamily: "var(--font-poppins)" }}
+          >
+            My
+            <span className="text-primary"> Listings</span>
+          </h2>
 
-export default MyListingsPage;
+          <p className="text-sm md:text-base text-muted-foreground mt-2">
+            Manage your pet listings and adoption requests.
+          </p>
+        </div>
+
+        <button className="bg-(--sunray) hover:opacity-90 transition-all text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-md text-sm font-semibold">
+          <Plus size={18} />
+          Add New Pet
+        </button>
+      </div>
+
+      {/* STATS */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        {/* TOTAL */}
+        <div className="bg-card border border-border rounded-2xl shadow-sm p-6 text-center">
+          <h2 className="text-4xl font-bold text-(--maroon)">
+            {listing.length}
+          </h2>
+          <p className="uppercase tracking-widest text-xs mt-2 text-muted-foreground">
+            Total Listings
+          </p>
+        </div>
+
+        {/* AVAILABLE */}
+        <div className="bg-card border border-border rounded-2xl shadow-sm p-6 text-center">
+          <h2 className="text-4xl font-bold text-green-600">
+            {availableListing.length}
+          </h2>
+          <p className="uppercase tracking-widest text-xs mt-2 text-muted-foreground">
+            Available
+          </p>
+        </div>
+
+        {/* ADOPTED */}
+        <div className="bg-card border border-border rounded-2xl shadow-sm p-6 text-center">
+          <h2 className="text-4xl font-bold text-gray-500">
+            {adoptedListing.length}
+          </h2>
+          <p className="uppercase tracking-widest text-xs mt-2 text-muted-foreground">
+            Adopted
+          </p>
+        </div>
+      </div>
+
+      {listing.length === 0 ? (
+        <Link
+          href={"/dashboard/add-pet"}
+          className="border-2 border-dashed border-border rounded-2xl min-h-96 flex flex-col items-center justify-center text-center p-8   transition-all cursor-pointer group"
+        >
+          <div className="w-16 h-16 rounded-full bg-(--sunray)/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <Plus size={32} className="text-(--sunray)" />
+          </div>
+
+          <h3 className="text-xl font-bold text-foreground ">Add New Pet</h3>
+
+          <p className="text-sm text-muted-foreground mt-2">
+            Grow your pet collection
+          </p>
+        </Link>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {listing.map((pet) => (
+            <div
+              key={pet._id}
+              className="hover:scale-[1.01] transition-transform duration-200"
+            >
+              <ListingCard pet={pet} />
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
