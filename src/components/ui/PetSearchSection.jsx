@@ -1,21 +1,22 @@
 "use client";
 
 import { Search, FilterX, ChevronDown } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const PetSearchSection = () => {
-  const [search, setSearch] = useState();
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const [search, setSearch] = useState("");
+  const [species, setSpecies] = useState("");
 
   const handleSearch = () => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams();
 
     if (search) {
       params.set("search", search);
-    } else {
-      params.delete("search");
+    }
+    if (species) {
+      params.set("species", species);
     }
 
     router.push(`/all-pets?${params.toString()}`);
@@ -84,12 +85,16 @@ const PetSearchSection = () => {
                 </label>
 
                 <div className="relative">
-                  <select className="appearance-none w-full h-12 rounded-xl border border-border bg-background px-4 text-foreground outline-none transition-all duration-200 focus:ring-2 focus:ring-ring focus:border-primary cursor-pointer">
-                    <option>All Species</option>
-                    <option>Dogs</option>
-                    <option>Cats</option>
-                    <option>Birds</option>
-                    <option>Small Animals</option>
+                  <select
+                    value={species}
+                    onChange={(e) => setSpecies(e.target.value)}
+                    className="appearance-none w-full h-12 rounded-xl border border-border bg-background px-4 text-foreground outline-none transition-all duration-200 focus:ring-2 focus:ring-ring focus:border-primary cursor-pointer"
+                  >
+                    <option value="">All Species</option>
+                    <option value="Dog">Dog</option>
+                    <option value="Cat">Cat</option>
+                    <option value="Bird">Bird</option>
+                    <option value="Small Animal">Small Animal</option>
                   </select>
 
                   <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
@@ -104,10 +109,10 @@ const PetSearchSection = () => {
 
                 <div className="relative">
                   <select className=" appearance-none  w-full h-12 rounded-xl  border border-border bg-background px-4  text-foreground outline-none  transition-all duration-200 focus:ring-2 focus:ring-ring  focus:border-primary cursor-pointer ">
-                    <option>Any Age</option>
-                    <option>Puppy / Kitten</option>
-                    <option>Adult</option>
-                    <option>Senior</option>
+                    <option value="">Any Age</option>
+                    <option value="Puppy / Kitten">Puppy / Kitten</option>
+                    <option value="Adult">Adult</option>
+                    <option value="Senior">Senior</option>
                   </select>
 
                   <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
@@ -125,10 +130,10 @@ const PetSearchSection = () => {
                     className="  appearance-none w-full h-12 rounded-xl border border-border  bg-background
                       px-4 text-foreground outline-none  transition-all duration-200 focus:ring-2 focus:ring-ring focus:border-primary cursor-pointer "
                   >
-                    <option>Any Size</option>
-                    <option>Small</option>
-                    <option>Medium</option>
-                    <option>Large</option>
+                    <option value="">Any Size</option>
+                    <option value="Small">Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Large">Large</option>
                   </select>
 
                   <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
@@ -140,6 +145,7 @@ const PetSearchSection = () => {
             <button
               onClick={() => {
                 setSearch("");
+                setSpecies("");
                 router.push("/all-pets");
               }}
               className="flex items-center gap-2 text-sm font-semibold text-secondary-foreground hover:text-primary"

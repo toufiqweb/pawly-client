@@ -32,9 +32,7 @@ export default function RootLayout({ children }) {
     >
       <body className={`${inter.className} bg-background text-foreground`}>
         <Provider>
-          <Navbar />
           {children}
-          <Footer />
         </Provider>
       </body>
     </html>

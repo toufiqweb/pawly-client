@@ -1,9 +1,15 @@
-import React from "react";
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 
-const DashboardLayout = () => {
+const DashboardLayout = ({ children }) => {
   return (
-    <div>
-      <h1>This is the Dashboard Layout</h1>
+    <div className="min-h-screen bg-background">
+      <DashboardSidebar />
+      <DashboardNavbar />
+
+      <div className="lg:pl-65">
+        <main className="p-4 md:p-6">{children}</main>
+      </div>
     </div>
   );
 };
