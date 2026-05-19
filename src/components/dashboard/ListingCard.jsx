@@ -1,6 +1,8 @@
 import { Eye, Pencil, Trash2, Users } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+import DeleteListingModal from "./DeleteListingModal";
 
 const ListingCard = ({ pet }) => {
   return (
@@ -9,8 +11,8 @@ const ListingCard = ({ pet }) => {
       {/* IMAGE */}
       <div className="relative aspect-square overflow-hidden">
         <Image
-          src={pet.image}
-          alt={pet.name}
+          src={pet?.image}
+          alt={pet?.name}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"
         />
@@ -18,7 +20,7 @@ const ListingCard = ({ pet }) => {
         {/* STATUS */}
         <div className="absolute top-4 right-4 bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1 shadow-sm backdrop-blur">
           <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-          {pet.status}
+          {pet?.status}
         </div>
       </div>
 
@@ -29,21 +31,21 @@ const ListingCard = ({ pet }) => {
         <div className="flex items-start justify-between gap-3">
           <div>
             <h3 className="text-lg font-bold leading-tight text-foreground">
-              {pet.name}
+              {pet?.name}
             </h3>
 
             <p className="text-sm text-muted-foreground">
-              {pet.species} • {pet.breed}
+              {pet?.species} • {pet?.breed}
             </p>
           </div>
 
           <div className="text-right">
             <h4 className="text-xl font-bold text-primary">
-              ${pet.adoptionFee}
+              ${pet?.adoptionFee}
             </h4>
 
             <span className="inline-block mt-1 bg-muted text-muted-foreground text-xs px-2 py-1 rounded-md font-medium">
-              {pet.requests || 0} requests
+              {pet?.requests || 0} requests
             </span>
           </div>
         </div>
@@ -52,28 +54,25 @@ const ListingCard = ({ pet }) => {
         <div className="grid grid-cols-2 gap-3">
 
           {/* VIEW */}
-          <button className="border border-border hover:bg-muted transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
+          <Link href={`/all-pets/${pet?._id}`} className="border border-border hover:bg-muted cursor-pointer transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
             <Eye size={18} />
             View
-          </button>
+          </Link>
 
           {/* EDIT */}
-          <button className="border border-border hover:bg-muted transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
+          <Link  href={`/dashboard/my-listings/edit/${pet._id}`} className="border cursor-pointer border-border hover:bg-muted transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
             <Pencil size={18} />
             Edit
-          </button>
+          </Link>
 
           {/* REQUESTS */}
-          <button className="col-span-2 border border-primary/40 text-primary hover:bg-primary/10 transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-semibold">
+          <button className="col-span-2 border border-primary/40 text-primary cursor-pointer hover:bg-primary/10 transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-semibold">
             <Users size={18} />
             Manage Requests
           </button>
 
           {/* DELETE */}
-          <button className="col-span-2 border border-destructive/30 text-red-600 dark:text-red-400 hover:bg-destructive/10 transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-semibold">
-            <Trash2 size={18} />
-            Delete Listing
-          </button>
+          <DeleteListingModal petId={pet._id}/>
 
         </div>
       </div>

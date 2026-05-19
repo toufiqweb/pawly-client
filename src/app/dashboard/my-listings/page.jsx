@@ -12,12 +12,12 @@ export default async function MyListingsPage() {
   });
 
   const user = session?.user;
-
   const listing = await getUserListing(user?.email);
-
   const availableListing = listing.filter(
     (list) => list.status === "available",
   );
+
+  //   console.log(listing);
 
   const adoptedListing = listing.filter((list) => list.status === "adopted");
 
@@ -27,7 +27,7 @@ export default async function MyListingsPage() {
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2
-            className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4 leading-tight"
+            className="text-3xl md:text-4xl font-bold tracking-tight leading-tight"
             style={{ fontFamily: "var(--font-poppins)" }}
           >
             My
@@ -49,7 +49,7 @@ export default async function MyListingsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         {/* TOTAL */}
         <div className="bg-card border border-border rounded-2xl shadow-sm p-6 text-center">
-          <h2 className="text-4xl font-bold text-(--maroon)">
+          <h2 className="text-4xl font-bold text-foreground">
             {listing.length}
           </h2>
           <p className="uppercase tracking-widest text-xs mt-2 text-muted-foreground">
@@ -59,7 +59,7 @@ export default async function MyListingsPage() {
 
         {/* AVAILABLE */}
         <div className="bg-card border border-border rounded-2xl shadow-sm p-6 text-center">
-          <h2 className="text-4xl font-bold text-green-600">
+          <h2 className="text-4xl font-bold text-primary">
             {availableListing.length}
           </h2>
           <p className="uppercase tracking-widest text-xs mt-2 text-muted-foreground">
@@ -69,7 +69,7 @@ export default async function MyListingsPage() {
 
         {/* ADOPTED */}
         <div className="bg-card border border-border rounded-2xl shadow-sm p-6 text-center">
-          <h2 className="text-4xl font-bold text-gray-500">
+          <h2 className="text-4xl font-bold text-green-400">
             {adoptedListing.length}
           </h2>
           <p className="uppercase tracking-widest text-xs mt-2 text-muted-foreground">

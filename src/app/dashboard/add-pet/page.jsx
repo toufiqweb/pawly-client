@@ -15,9 +15,13 @@ const AddPetPage = () => {
           Pet Adoption Dashboard
         </span>
 
-        <h1 className="text-4xl font-bold tracking-tight text-foreground">
-          Add a New Pet Listing
-        </h1>
+        <h2
+          className="text-3xl md:text-4xl font-bold tracking-tight leading-tight"
+          style={{ fontFamily: "var(--font-poppins)" }}
+        >
+          Add a New Pet
+          <span className="text-primary"> Listing</span>
+        </h2>
 
         <p className="max-w-2xl text-muted-foreground text-base leading-relaxed">
           Fill in your pet’s information including breed, health, vaccination
