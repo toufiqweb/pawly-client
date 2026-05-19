@@ -32,6 +32,12 @@ const LoginPage = () => {
     }
   };
 
+  const signIn = async () => {
+    const data = await authClient.signIn.social({
+      provider: "google",
+    });
+  };
+
   return (
     <main className="min-h-screen bg-background flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-5xl overflow-hidden rounded-xl border border-border bg-card shadow-xl flex flex-col md:flex-row">
@@ -175,7 +181,7 @@ const LoginPage = () => {
             </button>
 
             {/* GOOGLE */}
-            <button className=" w-12 h-12 rounded-full bg-[#ffffff] border border-border flex items-center justify-center shadow-sm hover:bg-muted transition-colors ">
+            <button onClick={signIn} className=" w-12 h-12 rounded-full bg-[#ffffff] border border-border flex items-center justify-center shadow-sm hover:bg-muted transition-colors ">
               <FcGoogle className="w-5 h-5" />
             </button>
           </div>

@@ -1,11 +1,25 @@
-import React from 'react';
+import PetCard from "@/components/ui/PetCard";
+import PetSearchSection from "@/components/ui/PetSearchSection";
+import { getAllPets } from "@/lib/data/pets";
+import React from "react";
 
-const AllPetsPage = () => {
-    return (
-        <div>
-            <h1> This is the All Pets page </h1>
-        </div>
-    );
+const AllPetsPage = async () => {
+  const pets = await getAllPets();
+//   console.log(pets);
+
+  return (
+    <section className="bg-background ">
+      <div className="max-w-7xl mx-auto">
+        <PetSearchSection />
+
+      <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3  gap-6 p-6">
+        {pets.map((pet) => (
+          <PetCard key={pet.id} pet={pet} />
+        ))}
+      </div>
+      </div>
+    </section>
+  );
 };
 
 export default AllPetsPage;

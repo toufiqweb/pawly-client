@@ -13,8 +13,8 @@ import {
   PlusCircle,
 } from "lucide-react";
 
-import { motion, AnimatePresence } from "motion/react";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 import { ThemeSwitch } from "../ui/ThemeSwitch";
 import NavLinks from "../ui/NavLinks";
 import Link from "next/link";
@@ -24,15 +24,20 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const Navbar = () => {
+  const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const router = useRouter();
 
-  const { data: session, isPending, error } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
 
   const user = session?.user;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -53,8 +58,13 @@ const Navbar = () => {
     }
   };
 
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 border-b border-border/50 bg-card/80 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -66,7 +76,9 @@ const Navbar = () => {
               <PawPrint className="text-primary w-6 h-6" />
             </div>
 
-            <span style={{ fontFamily: "var(--font-poppins)" }}>Pawly</span>
+            <span style={{ fontFamily: "var(--font-poppins)" }}>
+              Pawly
+            </span>
           </Link>
 
           {/* Desktop Menu */}
@@ -77,9 +89,13 @@ const Navbar = () => {
 
             {user && (
               <>
-                <NavLinks href="/my-requests">My Requests</NavLinks>
+                <NavLinks href="/my-requests">
+                  My Requests
+                </NavLinks>
 
-                <NavLinks href="/add-pet">Add Pet</NavLinks>
+                <NavLinks href="/add-pet">
+                  Add Pet
+                </NavLinks>
               </>
             )}
           </div>
@@ -88,22 +104,11 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             <ThemeSwitch />
 
-            {/* Loading State */}
+            {/* Auth Section */}
             {isPending ? (
-              <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl border border-border bg-muted/40">
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span className="text-sm">Loading...</span>
+              <div className="hidden md:flex items-center justify-center w-10 h-10">
+                <Loader2 className="w-5 h-5 animate-spin" />
               </div>
-            ) : error ? (
-              <Button
-                size="sm"
-                variant="flat"
-                color="danger"
-                onPress={() => router.refresh()}
-                className="hidden md:flex"
-              >
-                Retry
-              </Button>
             ) : user ? (
               /* Profile Dropdown */
               <div className="relative hidden md:block">
@@ -154,7 +159,9 @@ const Navbar = () => {
                     >
                       {/* User Info */}
                       <div className="p-4 border-b border-border">
-                        <p className="font-semibold">{user?.name}</p>
+                        <p className="font-semibold">
+                          {user?.name}
+                        </p>
 
                         <p className="text-sm text-muted-foreground truncate">
                           {user?.email}
@@ -182,7 +189,9 @@ const Navbar = () => {
                             <LogOut className="w-4 h-4" />
                           )}
 
-                          {isLoggingOut ? "Logging out..." : "Logout"}
+                          {isLoggingOut
+                            ? "Logging out..."
+                            : "Logout"}
                         </button>
                       </div>
                     </motion.div>
@@ -202,11 +211,17 @@ const Navbar = () => {
 
             {/* Mobile Menu Button */}
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() =>
+                setMobileMenuOpen(!mobileMenuOpen)
+              }
               className="md:hidden p-2 rounded-xl hover:bg-muted transition-colors"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? (
+                <X size={24} />
+              ) : (
+                <Menu size={24} />
+              )}
             </button>
           </div>
         </div>
@@ -224,7 +239,9 @@ const Navbar = () => {
               <div className="flex flex-col gap-2">
                 <NavLinks href="/">Home</NavLinks>
 
-                <NavLinks href="/all-pets">All Pets</NavLinks>
+                <NavLinks href="/all-pets">
+                  All Pets
+                </NavLinks>
 
                 {user && (
                   <>
@@ -254,19 +271,9 @@ const Navbar = () => {
                 {/* Mobile Auth */}
                 <div className="pt-4">
                   {isPending ? (
-                    <div className="flex items-center justify-center gap-2 py-3 rounded-xl border border-border bg-muted/40">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Loading...</span>
+                    <div className="flex justify-center py-4">
+                      <Loader2 className="w-5 h-5 animate-spin" />
                     </div>
-                  ) : error ? (
-                    <Button
-                      fullWidth
-                      color="danger"
-                      variant="flat"
-                      onPress={() => router.refresh()}
-                    >
-                      Failed to load session
-                    </Button>
                   ) : user ? (
                     <div className="space-y-3">
                       {/* User Card */}
@@ -286,7 +293,9 @@ const Navbar = () => {
                         )}
 
                         <div>
-                          <p className="font-semibold">{user?.name}</p>
+                          <p className="font-semibold">
+                            {user?.name}
+                          </p>
 
                           <p className="text-sm text-muted-foreground">
                             {user?.email}
@@ -310,7 +319,9 @@ const Navbar = () => {
                         )}
 
                         <span>
-                          {isLoggingOut ? "Logging out..." : "Logout"}
+                          {isLoggingOut
+                            ? "Logging out..."
+                            : "Logout"}
                         </span>
                       </Button>
                     </div>
