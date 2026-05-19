@@ -1,8 +1,26 @@
 "use client";
 
 import { Search, FilterX, ChevronDown } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 const PetSearchSection = () => {
+  const [search, setSearch] = useState();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleSearch = () => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (search) {
+      params.set("search", search);
+    } else {
+      params.delete("search");
+    }
+
+    router.push(`/all-pets?${params.toString()}`);
+  };
+
   return (
     <section className="bg-background py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-4">
@@ -23,17 +41,38 @@ const PetSearchSection = () => {
 
         {/* SEARCH CONTAINER */}
         <div className="bg-card border border-border rounded-2xl shadow-sm p-6 md:p-8">
-          {/* SEARCH BAR */}
-          <div className="relative mb-8">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          {/* SEARCH BAR + BUTTON */}
+          <div className="flex flex-col sm:flex-row gap-3 mb-4">
+            {/* INPUT */}
+            <div className="relative flex-1">
+              {/* SEARCH ICON */}
+              <div className="absolute left-5 top-1/2 -translate-y-1/2 z-10 pointer-events-none">
+                <Search className="w-5 h-5 text-muted-foreground" />
+              </div>
 
-            <input
-              type="text"
-              placeholder="Search pets by name..."
-              className=" w-full h-14 rounded-xl border border-border bg-background pl-14 pr-5  text-foreground placeholder:text-muted-foreground outline-none transition-all duration-200 focus:ring-2 focus:ring-ring focus:border-primary "
-            />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+                placeholder="Search pets by name or breed..."
+                className="w-full h-14 rounded-2xl border border-border bg-background/60 backdrop-blur-sm pl-14 pr-5 text-foreground placeholder:text-muted-foreground outline-none transition-all duration-200 focus:ring-2 focus:ring-primary/30 focus:border-primary"
+              />
+            </div>
+
+            {/* BUTTON */}
+            <button
+              onClick={handleSearch}
+              className="h-14 px-7 rounded-2xl bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all duration-200 flex items-center justify-center gap-2 shadow-sm hover:shadow-md active:scale-[0.98]"
+            >
+              <Search className="w-4 h-4" />
+              Search
+            </button>
           </div>
-
           {/* FILTER ROW */}
           <div className="flex flex-col lg:flex-row lg:items-end gap-5">
             {/* FILTER GRID */}
@@ -97,8 +136,14 @@ const PetSearchSection = () => {
               </div>
             </div>
 
-            {/* CLEAR FILTER */}
-            <button className=" flex items-center gap-2 text-sm font-semibold text-secondary-foreground hover:text-primary  transition-colors  whitespace-nowrap pb-1  ">
+            {/* CLEAR */}
+            <button
+              onClick={() => {
+                setSearch("");
+                router.push("/all-pets");
+              }}
+              className="flex items-center gap-2 text-sm font-semibold text-secondary-foreground hover:text-primary"
+            >
               <FilterX className="w-5 h-5" />
               Clear Filters
             </button>

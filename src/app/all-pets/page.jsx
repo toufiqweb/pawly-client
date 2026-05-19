@@ -3,9 +3,11 @@ import PetSearchSection from "@/components/ui/PetSearchSection";
 import { getAllPets } from "@/lib/data/pets";
 import React from "react";
 
-const AllPetsPage = async () => {
-  const pets = await getAllPets();
-//   console.log(pets);
+const AllPetsPage = async ({searchParams}) => {
+   const sParams = await searchParams;
+
+  const pets = await getAllPets(sParams?.search || "");
+
 
   return (
     <section className="bg-background ">
