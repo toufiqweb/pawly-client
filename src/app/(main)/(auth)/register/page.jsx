@@ -53,7 +53,7 @@ const RegisterPage = () => {
       return setError("Passwords do not match.");
     }
 
-    //console.log("Registration Successful");
+
 
     const { data, error } = await authClient.signUp.email(
       {
@@ -78,7 +78,7 @@ const RegisterPage = () => {
       },
     );
 
-    // console.log(data, error );
+
     
   };
 

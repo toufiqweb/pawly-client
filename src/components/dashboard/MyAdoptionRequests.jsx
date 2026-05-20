@@ -113,15 +113,22 @@ export default function MyAdoptionRequests({ requests }) {
 
                   {/* STATUS */}
                   <td className="px-6 py-5">
-                    {request.status === "rejected" ? (
+                    {request.status === "rejected" && (
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-destructive/10 px-3 py-1 text-xs font-semibold text-destructive">
                         <XCircle size={13} />
                         Rejected
                       </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/20 px-3 py-1 text-xs font-semibold text-maroon">
+                    )}
+                    {request.status === "pending" && (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/20 px-3 py-1 text-xs font-semibold text-primary">
                         <Clock3 size={13} />
                         Pending
+                      </span>
+                    )}
+                    {request.status === "approved" && (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-500">
+                        <Clock3 size={13} />
+                        Approved
                       </span>
                     )}
                   </td>

@@ -46,11 +46,11 @@ export default function AddPetForm() {
 
       const result = await res.json();
 
-      //   console.log(result);
+
 
       e.target.reset();
     } catch (error) {
-      //   console.log(error);
+;
     }
   };
 

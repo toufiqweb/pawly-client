@@ -11,8 +11,6 @@ const MyRequestsPage = async () => {
   });
   const user = session?.user;
   const requests = await getMyRequests(user?.email);
-  // console.log(request.length);
-  
 
   return (
     <div className="relative min-h-screen bg-background overflow-hidden container mx-auto px-4 md:px-6 py-10">
@@ -36,7 +34,7 @@ const MyRequestsPage = async () => {
         </p>
       </div>
 
-      <MyAdoptionRequests  requests={requests}/>
+      <MyAdoptionRequests requests={requests} />
 
       {/* BACKGROUND BLURS */}
       <div className="pointer-events-none fixed -bottom-24 -right-24 h-96 w-96 rounded-full bg-primary/10 blur-[120px]" />

@@ -41,9 +41,9 @@ export default function UpdatePetForm({ pet }) {
       );
 
       const result = await res.json();
-      console.log("Updated:", result);
+
     } catch (error) {
-      console.log(error);
+
     }
   };
 

@@ -17,10 +17,7 @@ export default async function MyListingsPage() {
     (list) => list.status === "available",
   );
 
-  // console.log("SESSION:", session);
-  // console.log("USER:", user);
-  // console.log("EMAIL:", user?.email);
-  // //   console.log(listing);
+
 
   const adoptedListing = listing.filter((list) => list.status === "adopted");
 
@@ -110,7 +107,6 @@ export default async function MyListingsPage() {
       )}
 
       <div className="pointer-events-none fixed -bottom-24 -right-24 h-96 w-96 rounded-full bg-primary/10 blur-[120px]" />
-
       <div className="pointer-events-none fixed top-32 left-24 h-72 w-72 rounded-full bg-chart-2/10 blur-[100px]" />
     </section>
   );

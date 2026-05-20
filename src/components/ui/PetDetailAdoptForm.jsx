@@ -11,7 +11,7 @@ const PetDetailAdoptForm = ({ pet }) => {
     refetch, //refetch the session
   } = authClient.useSession();
 
-  // console.log(session?.user);
+
   const user = session?.user;
   const handleAdopt = async (e) => {
     e.preventDefault();
@@ -53,7 +53,7 @@ const PetDetailAdoptForm = ({ pet }) => {
     //   toast.success("Request Sent");
     // }
 
-    // console.log(data);
+
     
   };
 

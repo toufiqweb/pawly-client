@@ -52,7 +52,7 @@ export default function DashboardSidebar() {
   };
 
   return (
-    <aside className=" hidden lg:flex lg:fixed lg:left-0 lg:top-16  lg:z-30 lg:h-[calc(100vh-64px)] lg:w-[260px] lg:flex-col lg:justify-between border-r border-border bg-card ">
+    <aside className=" hidden lg:flex lg:fixed lg:left-0 lg:top-16  lg:z-30 lg:h-[calc(100vh-64px)] lg:w-65 lg:flex-col lg:justify-between border-r border-border bg-card ">
       {/* TOP SECTION */}
       <div>
         {/* NAVIGATION */}

@@ -3,8 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import DeleteListingModal from "./DeleteListingModal";
+import { RequestsModal } from "./RequestsModal";
 
 const ListingCard = ({ pet }) => {
+
+  
   return (
     <div className="bg-card text-card-foreground rounded-2xl overflow-hidden border border-border shadow-sm hover:-translate-y-1 transition-all duration-300 group">
 
@@ -65,11 +68,9 @@ const ListingCard = ({ pet }) => {
             Edit
           </Link>
 
-          {/* REQUESTS */}
-          <button className="col-span-2 border border-primary/40 text-primary cursor-pointer hover:bg-primary/10 transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-semibold">
-            <Users size={18} />
-            Manage Requests
-          </button>
+          
+
+          <RequestsModal petId={pet._id}/>
 
           {/* DELETE */}
           <DeleteListingModal petId={pet._id}/>
