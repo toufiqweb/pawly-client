@@ -9,7 +9,7 @@ export const metadata = {
 
 const AddPetPage = () => {
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10">
+    <section className="container mx-auto px-4 py-10">
       <div className="mb-8 space-y-3">
         <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
           Pet Adoption Dashboard
@@ -31,6 +31,9 @@ const AddPetPage = () => {
       </div>
 
       <AddPetForm />
+      <div className="pointer-events-none fixed -bottom-24 -right-24 h-96 w-96 rounded-full bg-primary/10 blur-[120px]" />
+
+      <div className="pointer-events-none fixed top-32 left-24 h-72 w-72 rounded-full bg-chart-2/10 blur-[100px]" />
     </section>
   );
 };

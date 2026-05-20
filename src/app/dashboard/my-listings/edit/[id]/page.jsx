@@ -8,7 +8,7 @@ const MyListingEditPage = async ({ params }) => {
   const pet = await getPetById(id);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 space-y-8 bg-background text-foreground">
+    <div className="container mx-auto px-4 md:px-6 py-10 space-y-8 bg-background text-foreground">
       {/* HEADER */}
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         {/* LEFT */}
@@ -51,6 +51,8 @@ const MyListingEditPage = async ({ params }) => {
       <div className="bg-card border border-border rounded-2xl shadow-lg overflow-hidden">
         <UpdatePetForm pet={pet} />
       </div>
+      <div className="pointer-events-none fixed -bottom-24 -right-24 h-96 w-96 rounded-full bg-primary/10 blur-[120px]" />
+      <div className="pointer-events-none fixed top-32 left-24 h-72 w-72 rounded-full bg-chart-2/10 blur-[100px]" />
     </div>
   );
 };

@@ -22,10 +22,12 @@ const PetDetailAdoptForm = ({ pet }) => {
     const adoptionData = {
       petId: pet?._id,
       petName: pet?.petName,
+      petImage: pet?.image,
       ownerEmail: pet?.ownerEmail,
 
       userName: user?.name,
       userEmail: user?.email,
+      userImage: user?.image,
 
       pickupDate: adoptionFormData.pickupDate,
       message: adoptionFormData.message,

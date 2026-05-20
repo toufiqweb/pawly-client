@@ -16,9 +16,13 @@ export const getFeaturedPets = async () => {
   return await res.json();
 };
 
+
+
+
+
 export const getUserListing = async (email) => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/pets?email=${email}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/listings?email=${email}`,
     {
       cache: "no-store",
     }

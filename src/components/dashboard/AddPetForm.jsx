@@ -55,7 +55,7 @@ export default function AddPetForm() {
   };
 
   return (
-    <div className="bg-background max-w-7xl mx-auto rounded-xl border border-border shadow-lg overflow-hidden">
+    <div className="bg-background container mx-auto rounded-xl border border-border shadow-lg overflow-hidden">
       {/* Header */}
       <div className="bg-muted px-6 py-5 border-b border-border flex items-center gap-3">
         <PawPrint className="w-5 h-5 text-primary fill-primary" />

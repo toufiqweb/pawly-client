@@ -17,12 +17,15 @@ export default async function MyListingsPage() {
     (list) => list.status === "available",
   );
 
-  //   console.log(listing);
+  // console.log("SESSION:", session);
+  // console.log("USER:", user);
+  // console.log("EMAIL:", user?.email);
+  // //   console.log(listing);
 
   const adoptedListing = listing.filter((list) => list.status === "adopted");
 
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-6 py-10 space-y-10 bg-background text-foreground">
+    <section className="container mx-auto px-4 md:px-6 py-10 space-y-10 bg-background text-foreground">
       {/* HEADER */}
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
@@ -105,6 +108,10 @@ export default async function MyListingsPage() {
           ))}
         </div>
       )}
+
+      <div className="pointer-events-none fixed -bottom-24 -right-24 h-96 w-96 rounded-full bg-primary/10 blur-[120px]" />
+
+      <div className="pointer-events-none fixed top-32 left-24 h-72 w-72 rounded-full bg-chart-2/10 blur-[100px]" />
     </section>
   );
 }
