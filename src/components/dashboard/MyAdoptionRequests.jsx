@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Eye, XCircle, Clock3 } from "lucide-react";
+import { DeleteRequest } from "./DeleteRequest";
 
 export default function MyAdoptionRequests({ requests }) {
   const safeRequests = requests || [];
@@ -142,9 +143,7 @@ export default function MyAdoptionRequests({ requests }) {
                       </button>
 
                       {request.status === "pending" && (
-                        <button className="rounded-lg bg-destructive px-4 py-2 text-sm font-semibold text-destructive-foreground transition-opacity hover:opacity-90">
-                          Cancel
-                        </button>
+                        <DeleteRequest request={request} />
                       )}
                     </div>
                   </td>
