@@ -30,10 +30,9 @@ export default function RootLayout({ children }) {
       className={`${poppins.variable} ${inter.variable} h-full antialiased`}
     >
       <body className={`${inter.className} bg-background text-foreground`}>
-        <Provider>
-          {children}
-          <Toaster />
-        </Provider>
+        <Provider>{children}</Provider>
+        <Toaster />
+           <Toaster position="top-center" />
       </body>
     </html>
   );
