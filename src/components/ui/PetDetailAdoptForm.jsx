@@ -1,13 +1,68 @@
+"use client";
+import { authClient } from "@/lib/auth-client";
 import { CalendarDays } from "lucide-react";
 import React from "react";
 
-const PetDetailAdoptForm = ({pet}) => {
+const PetDetailAdoptForm = ({ pet }) => {
+  const {
+    data: session,
+    isPending, //loading state
+    error, //error object
+    refetch, //refetch the session
+  } = authClient.useSession();
+
+  // console.log(session?.user);
+  const user = session?.user;
+  const handleAdopt = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const adoptionFormData = Object.fromEntries(formData.entries());
+
+    const adoptionData = {
+      petId: pet?._id,
+      petName: pet?.petName,
+      ownerEmail: pet?.ownerEmail,
+
+      userName: user?.name,
+      userEmail: user?.email,
+
+      pickupDate: adoptionFormData.pickupDate,
+      message: adoptionFormData.message,
+
+      status: "pending",
+      createdAt: new Date(),
+    };
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/adoption-requests`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(adoptionData),
+      },
+    );
+
+    const data = await res.json();
+
+    // if (data.insertedId) {
+    //   toast.success("Request Sent");
+    // }
+
+    // console.log(data);
+    
+  };
+
   return (
     <aside className="lg:col-span-4 lg:sticky lg:top-24">
       <div className="bg-card rounded-[24px] border border-border p-6 md:p-8 shadow-sm">
-        <h2 className="text-3xl font-bold text-foreground mb-6">Adopt {pet.petName}</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-6">
+          Adopt {pet.petName}
+        </h2>
 
-        <form className="space-y-4">
+        <form onSubmit={handleAdopt} className="space-y-4">
           {/* PET NAME */}
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">
@@ -17,6 +72,7 @@ const PetDetailAdoptForm = ({pet}) => {
             <input
               type="text"
               value={pet.petName}
+              name="petName"
               readOnly
               className="w-full h-12 rounded-xl border border-border bg-muted px-4 text-muted-foreground outline-none"
             />
@@ -30,7 +86,8 @@ const PetDetailAdoptForm = ({pet}) => {
 
             <input
               type="text"
-              value={"John Doe"}
+              value={user?.name}
+              name="userName"
               readOnly
               className="w-full h-12 rounded-xl border border-border bg-background px-4 text-foreground outline-none focus:ring-2 focus:ring-ring focus:border-primary"
             />
@@ -44,7 +101,8 @@ const PetDetailAdoptForm = ({pet}) => {
 
             <input
               type="text"
-              value={"john.doe@example.com"}
+              value={user?.email}
+              name="userEmail"
               readOnly
               className="w-full h-12 rounded-xl border border-border bg-background px-4 text-foreground outline-none focus:ring-2 focus:ring-ring focus:border-primary"
             />
@@ -59,10 +117,11 @@ const PetDetailAdoptForm = ({pet}) => {
             <div className="relative">
               <input
                 type="date"
+                name="pickupDate"
                 className="w-full h-12 rounded-xl border border-border bg-background px-4 text-foreground outline-none focus:ring-2 focus:ring-ring focus:border-primary"
               />
 
-              <CalendarDays className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+              <CalendarDays className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 cursor-pointer text-muted-foreground pointer-events-none" />
             </div>
           </div>
 
@@ -74,6 +133,7 @@ const PetDetailAdoptForm = ({pet}) => {
 
             <textarea
               rows={5}
+              name="message"
               placeholder="Tell Rahim about your home and why you'd like to adopt Bella..."
               className="w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground outline-none resize-none focus:ring-2 focus:ring-ring focus:border-primary"
             />
@@ -82,7 +142,7 @@ const PetDetailAdoptForm = ({pet}) => {
           {/* BUTTON */}
           <button
             type="submit"
-            className="w-full h-14 rounded-2xl bg-primary text-primary-foreground font-bold shadow-md hover:opacity-90 hover:scale-[0.99] transition-all duration-200"
+            className="w-full h-14 rounded-2xl bg-primary cursor-pointer text-primary-foreground font-bold shadow-md hover:opacity-90 hover:scale-[0.99] transition-all duration-200"
           >
             Send Adoption Request
           </button>
