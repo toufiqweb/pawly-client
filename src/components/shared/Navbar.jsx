@@ -11,6 +11,8 @@ import {
   ChevronDown,
   HeartHandshake,
   PlusCircle,
+  Grid3X3,
+  Home,
 } from "lucide-react";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -76,28 +78,33 @@ const Navbar = () => {
               <PawPrint className="text-primary w-6 h-6" />
             </div>
 
-            <span style={{ fontFamily: "var(--font-poppins)" }}>
-              Pawly
-            </span>
+            <span style={{ fontFamily: "var(--font-poppins)" }}>Pawly</span>
           </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-6">
-            <NavLinks href="/">Home</NavLinks>
-
-            <NavLinks href="/all-pets">All Pets</NavLinks>
-
+            <NavLinks href="/">
+              <div className="flex items-center gap-2">
+                <Home className="w-4 h-4" />
+                Home
+              </div>
+            </NavLinks>
             {user && (
               <>
-                <NavLinks href="/my-requests">
-                  My Requests
-                </NavLinks>
-
-                <NavLinks href="/add-pet">
-                  Add Pet
+                <NavLinks href="/favorites">
+                  <div className="flex items-center gap-2">
+                    <HeartHandshake className="w-4 h-4" />
+                    Favorites
+                  </div>
                 </NavLinks>
               </>
             )}
+            <NavLinks href="/all-pets">
+              <div className="flex items-center gap-2">
+                <Grid3X3 className="w-4 h-4" />
+                All-Pets
+              </div>
+            </NavLinks>
           </div>
 
           {/* Right Side */}
@@ -159,9 +166,7 @@ const Navbar = () => {
                     >
                       {/* User Info */}
                       <div className="p-4 border-b border-border">
-                        <p className="font-semibold">
-                          {user?.name}
-                        </p>
+                        <p className="font-semibold">{user?.name}</p>
 
                         <p className="text-sm text-muted-foreground truncate">
                           {user?.email}
@@ -189,9 +194,7 @@ const Navbar = () => {
                             <LogOut className="w-4 h-4" />
                           )}
 
-                          {isLoggingOut
-                            ? "Logging out..."
-                            : "Logout"}
+                          {isLoggingOut ? "Logging out..." : "Logout"}
                         </button>
                       </div>
                     </motion.div>
@@ -211,17 +214,11 @@ const Navbar = () => {
 
             {/* Mobile Menu Button */}
             <button
-              onClick={() =>
-                setMobileMenuOpen(!mobileMenuOpen)
-              }
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 rounded-xl hover:bg-muted transition-colors"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? (
-                <X size={24} />
-              ) : (
-                <Menu size={24} />
-              )}
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
@@ -237,25 +234,26 @@ const Navbar = () => {
               className="md:hidden overflow-hidden border-t border-border/50 py-5"
             >
               <div className="flex flex-col gap-2">
-                <NavLinks href="/">Home</NavLinks>
+                <NavLinks href="/">
+                  <div className="flex items-center gap-2">
+                    <Home className="w-4 h-4" />
+                    Home
+                  </div>
+                </NavLinks>
 
                 <NavLinks href="/all-pets">
-                  All Pets
+                  <div className="flex items-center gap-2">
+                    <Grid3X3 className="w-4 h-4" />
+                    All-Pets
+                  </div>
                 </NavLinks>
 
                 {user && (
                   <>
-                    <NavLinks href="/my-requests">
+                    <NavLinks href="/favorites">
                       <div className="flex items-center gap-2">
                         <HeartHandshake className="w-4 h-4" />
-                        My Requests
-                      </div>
-                    </NavLinks>
-
-                    <NavLinks href="/add-pet">
-                      <div className="flex items-center gap-2">
-                        <PlusCircle className="w-4 h-4" />
-                        Add Pet
+                        Favorites
                       </div>
                     </NavLinks>
 
@@ -293,9 +291,7 @@ const Navbar = () => {
                         )}
 
                         <div>
-                          <p className="font-semibold">
-                            {user?.name}
-                          </p>
+                          <p className="font-semibold">{user?.name}</p>
 
                           <p className="text-sm text-muted-foreground">
                             {user?.email}
@@ -319,9 +315,7 @@ const Navbar = () => {
                         )}
 
                         <span>
-                          {isLoggingOut
-                            ? "Logging out..."
-                            : "Logout"}
+                          {isLoggingOut ? "Logging out..." : "Logout"}
                         </span>
                       </Button>
                     </div>

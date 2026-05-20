@@ -1,6 +1,4 @@
 import "./globals.css";
-import Navbar from "@/components/shared/Navbar";
-import Footer from "@/components/shared/Footer";
 import { Provider } from "./providers/Provider";
 import { Poppins, Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
