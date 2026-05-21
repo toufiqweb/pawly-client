@@ -11,14 +11,13 @@ export default async function MyListingsPage() {
   });
 
   const { token } = await auth.api.getToken({
-    headers: await headers(), 
+    headers: await headers(),
   });
 
   const email = session?.user?.email;
-  const listing = await getUserListing(email , token);
+  const listing = await getUserListing(email, token);
 
 
-  
   const availableListing = listing.filter(
     (list) => list.status === "available",
   );

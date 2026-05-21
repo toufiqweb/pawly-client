@@ -53,7 +53,7 @@ const MyListingEditPage = async ({ params }) => {
       </div>
 
       {/* FORM WRAPPER CARD */}
-      <div className="bg-card border border-border rounded-2xl shadow-lg overflow-hidden">
+      <div className="">
         <UpdatePetForm pet={pet} />
       </div>
       <div className="pointer-events-none fixed -bottom-24 -right-24 h-96 w-96 rounded-full bg-primary/10 blur-[120px]" />

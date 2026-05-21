@@ -1,10 +1,9 @@
-
-export const getMyRequests = async (email , token) => {
+export const getMyRequests = async (email, token) => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/requests?userEmail=${encodeURIComponent(email)}` ,
+    `${process.env.NEXT_PUBLIC_API_URL}/requests?userEmail=${encodeURIComponent(email)}`,
     {
       headers: { authorization: `Bearer ${token}` },
-    }
+    },
   );
 
   if (!res.ok) {
@@ -16,10 +15,10 @@ export const getMyRequests = async (email , token) => {
 };
 export const getRequestByPetId = async (petId) => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/requests?petId=${encodeURIComponent(petId)}` ,
+    `${process.env.NEXT_PUBLIC_API_URL}/requests?petId=${encodeURIComponent(petId)}`,
     {
       headers: { authorization: `Bearer ${token}` },
-    }
+    },
   );
 
   if (!res.ok) {
@@ -32,6 +31,17 @@ export const getRequestByPetId = async (petId) => {
 
 const getPetRequests = async (id) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/requests/${id}`);
+  const data = await res.json();
+  return data;
+};
+
+export const getPetRequestsByPetId = async (id , token) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/requests?petId=${id}`,
+    {
+      headers: { authorization: `Bearer ${token}` },
+    },
+  );
   const data = await res.json();
   return data;
 };

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Eye, XCircle, Clock3 } from "lucide-react";
 import { DeleteRequest } from "./DeleteRequest";
+import Link from "next/link";
 
 export default function MyAdoptionRequests({ requests }) {
   const safeRequests = requests || [];
@@ -133,14 +134,15 @@ export default function MyAdoptionRequests({ requests }) {
                       </span>
                     )}
                   </td>
-
                   {/* ACTIONS */}
                   <td className="px-6 py-5">
                     <div className="flex items-center justify-end gap-3">
-                      <button className="inline-flex items-center gap-2 rounded-lg border border-primary px-4 py-2 text-sm font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground">
-                        <Eye size={16} />
-                        View
-                      </button>
+                      <Link href={`/all-pets/${request?.petId}`}>
+                        <button className="inline-flex items-center gap-2 rounded-lg border border-primary px-4 py-2 text-sm font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground">
+                          <Eye size={16} />
+                          View
+                        </button>
+                      </Link>
 
                       {request.status === "pending" && (
                         <DeleteRequest request={request} />
@@ -217,13 +219,13 @@ export default function MyAdoptionRequests({ requests }) {
 
             {/* ACTIONS */}
             <div className="mt-6 flex flex-wrap gap-3">
-              <button className="flex-1 min-w-[120px] inline-flex items-center justify-center gap-2 rounded-lg border border-primary px-4 py-2.5 text-sm font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground">
+              <button className="flex-1 min-w-30 inline-flex items-center justify-center gap-2 rounded-lg border border-primary px-4 py-2.5 text-sm font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground">
                 <Eye size={16} />
                 View
               </button>
 
               {request.status === "pending" && (
-                <button className="flex-1 min-w-[120px] rounded-lg bg-destructive px-4 py-2.5 text-sm font-semibold text-destructive-foreground transition-opacity hover:opacity-90">
+                <button className="flex-1 min-w-30 rounded-lg bg-destructive px-4 py-2.5 text-sm font-semibold text-destructive-foreground transition-opacity hover:opacity-90">
                   Cancel
                 </button>
               )}

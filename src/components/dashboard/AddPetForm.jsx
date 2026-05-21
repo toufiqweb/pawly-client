@@ -2,6 +2,7 @@
 
 import { authClient } from "@/lib/auth-client";
 import { PawPrint, MapPin, ImageIcon, CheckCircle } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function AddPetForm() {
   const { data: session } = authClient.useSession();
@@ -10,7 +11,7 @@ export default function AddPetForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const toastId = toast.loading("Adding pet...");
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
@@ -50,8 +51,16 @@ export default function AddPetForm() {
 
       const result = await res.json();
 
+      if (!res.ok) {
+        throw new Error(result?.message || "Failed to add pet");
+      }
+
+      toast.success("Pet added successfully 🐶", { id: toastId });
+
       e.target.reset();
-    } catch (error) {}
+    } catch (error) {
+      toast.error(error.message || "Something went wrong", { id: toastId });
+    }
   };
 
   return (

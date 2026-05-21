@@ -4,13 +4,17 @@ import Link from "next/link";
 import React from "react";
 import DeleteListingModal from "./DeleteListingModal";
 import { RequestsModal } from "./RequestsModal";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { getPetRequestsByPetId } from "@/lib/data/requests";
 
-const ListingCard = ({ pet }) => {
-
-  
+const ListingCard = async ({ pet }) => {
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+  const petRequests = await getPetRequestsByPetId(pet?._id, token);
   return (
     <div className="bg-card text-card-foreground rounded-2xl overflow-hidden border border-border shadow-sm hover:-translate-y-1 transition-all duration-300 group">
-
       {/* IMAGE */}
       <div className="relative aspect-square overflow-hidden">
         <Image
@@ -29,12 +33,11 @@ const ListingCard = ({ pet }) => {
 
       {/* CONTENT */}
       <div className="p-5 space-y-4">
-
         {/* TOP */}
         <div className="flex items-start justify-between gap-3">
           <div>
             <h3 className="text-lg font-bold leading-tight text-foreground">
-              {pet?.name}
+              {pet?.petName}
             </h3>
 
             <p className="text-sm text-muted-foreground">
@@ -48,33 +51,38 @@ const ListingCard = ({ pet }) => {
             </h4>
 
             <span className="inline-block mt-1 bg-muted text-muted-foreground text-xs px-2 py-1 rounded-md font-medium">
-              {pet?.requests || 0} requests
+              {petRequests?.length || 0} requests
             </span>
           </div>
         </div>
 
         {/* ACTIONS */}
         <div className="grid grid-cols-2 gap-3">
-
           {/* VIEW */}
-          <Link href={`/all-pets/${pet?._id}`} className="border border-border hover:bg-muted cursor-pointer transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
+          <Link
+            href={`/all-pets/${pet?._id}`}
+            className="border border-border hover:bg-muted cursor-pointer transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+          >
             <Eye size={18} />
             View
           </Link>
 
           {/* EDIT */}
-          <Link  href={`/dashboard/my-listings/edit/${pet._id}`} className="border cursor-pointer border-border hover:bg-muted transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
+          <Link
+            href={`/dashboard/my-listings/edit/${pet._id}`}
+            className="border cursor-pointer border-border hover:bg-muted transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+          >
             <Pencil size={18} />
             Edit
           </Link>
 
-          
+          <div className="col-span-2">
+            <RequestsModal petId={pet._id} />
+          </div>
 
-          <RequestsModal petId={pet._id}/>
-
-          {/* DELETE */}
-          <DeleteListingModal petId={pet._id}/>
-
+          <div className="col-span-2">
+            <DeleteListingModal petId={pet._id} />
+          </div>
         </div>
       </div>
     </div>

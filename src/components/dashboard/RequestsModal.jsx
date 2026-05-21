@@ -6,13 +6,14 @@ import { Button, Modal } from "@heroui/react";
 import { Users } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
+import { getPetRequestsByPetId } from "@/lib/data/requests";
 
 export function RequestsModal({ petId }) {
   const sizes = ["lg"];
 
   const [petRequests, setPetRequests] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [actionLoading, setActionLoading] = useState(null);
   // GET PET REQUESTS
   const getPetRequests = async (id) => {
     try {
@@ -22,15 +23,16 @@ export function RequestsModal({ petId }) {
       const token = tokenData?.token;
       // console.log(token);
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/requests?petId=${id}`,
-        {
-          headers: { authorization: `Bearer ${token}` },
-        },
-      );
-      const data = await res.json();
+      const petRequests = await getPetRequestsByPetId(id, token);
+      // const res = await fetch(
+      //   `${process.env.NEXT_PUBLIC_API_URL}/requests?petId=${id}`,
+      //   {
+      //     headers: { authorization: `Bearer ${token}` },
+      //   },
+      // );
+      // const data = await res.json();
 
-      setPetRequests(data);
+      setPetRequests(petRequests);
     } catch (error) {
     } finally {
       setLoading(false);
@@ -40,6 +42,8 @@ export function RequestsModal({ petId }) {
   // UPDATE REQUEST STATUS
   const handleStatus = async (id, status) => {
     try {
+      setActionLoading(id);
+
       const { data: tokenData } = await authClient.token();
       const token = tokenData?.token;
       // console.log(token);
@@ -58,145 +62,192 @@ export function RequestsModal({ petId }) {
 
       const data = await res.json();
 
-      // if (res.ok) {
-      //   setPetRequests((prev) =>
-      //     prev.map((request) =>
-      //       request._id === id ? { ...request, status } : request,
-      //     ),
-      //   );
-
-      //   toast.success(`Request ${status}`);
-      // }
-
       if (res.ok) {
-        // আবার সব request fetch করো
         await getPetRequests(petId);
 
         toast.success(`Request ${status}`);
       }
     } catch (error) {
       toast.error("Something went wrong");
+      setActionLoading(null);
     }
   };
   return (
-    <div className="flex flex-wrap gap-4">
-      {sizes.map((size) => (
-        <Modal key={size}>
-          {/* REQUESTS */}
-          <Button
-            onPress={() => getPetRequests(petId)}
-            variant="outline"
-            className="col-span-2 border border-primary/40 text-primary cursor-pointer hover:bg-primary/10 transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-semibold"
-          >
-            <Users size={18} />
-            Manage Requests
-          </Button>
+  <div className="flex flex-wrap gap-4  ">
+  {sizes.map((size) => (
+    <Modal key={size}>
+      {/* REQUESTS */}
+      <Button
+        onPress={() => getPetRequests(petId)}
+        variant="outline"
+        className="border w-full border-primary/40 bg-card text-primary cursor-pointer hover:bg-primary/10 transition-all duration-300 rounded-xl py-5 flex items-center justify-center gap-2 text-sm font-semibold shadow-sm"
+      >
+        <Users size={18} />
+        Manage Requests
+      </Button>
 
-          <Modal.Backdrop>
-            <Modal.Container size={size}>
-              <Modal.Dialog>
-                <Modal.CloseTrigger />
+      <Modal.Backdrop >
+        <Modal.Container
+          size={size}
+          className="border border-border "
+        >
+          <Modal.Dialog className="bg-card text-card-foreground rounded-3xl overflow-hidden">
+            <Modal.CloseTrigger className="text-muted-foreground hover:text-foreground transition" />
 
-                <Modal.Header>
-                  <Modal.Icon className="bg-default text-foreground">
-                    <Rocket className="size-5" />
-                  </Modal.Icon>
+            <Modal.Header className="border-b border-border pb-4">
+              <Modal.Icon className="bg-primary/10 text-primary border border-primary/20">
+                <Rocket className="size-5" />
+              </Modal.Icon>
 
-                  <Modal.Heading>Adoption Requests</Modal.Heading>
-                </Modal.Header>
+              <div>
+                <Modal.Heading className="text-xl font-bold text-foreground">
+                  Adoption Requests
+                </Modal.Heading>
 
-                <Modal.Body>
-                  {loading ? (
-                    <p>Loading...</p>
-                  ) : petRequests.length === 0 ? (
-                    <p>No requests found.</p>
-                  ) : (
-                    <div className="space-y-4">
-                      {/* TITLE */}
-                      <h2 className="text-lg font-bold mb-4">
-                        Adoption Requests
-                      </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Manage all adoption requests for this pet
+                </p>
+              </div>
+            </Modal.Header>
 
-                      {petRequests.map((request) => (
-                        <div
-                          key={request._id}
-                          className="border rounded-xl p-4 space-y-2"
-                        >
-                          {/* USER INFO */}
-                          <h2 className="font-semibold text-lg">
+            <Modal.Body className="py-5">
+              {loading ? (
+                <div className="flex items-center justify-center py-10">
+                  <div className="h-10 w-10 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+                </div>
+              ) : petRequests.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <div className="p-4 rounded-full bg-primary/10 mb-4">
+                    <Users className="size-7 text-primary" />
+                  </div>
+
+                  <h3 className="text-lg font-semibold text-foreground">
+                    No Requests Found
+                  </h3>
+
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Nobody has requested adoption yet.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {/* TITLE */}
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-lg font-bold text-foreground">
+                      Adoption Requests
+                    </h2>
+
+                    <span className="text-sm text-muted-foreground">
+                      {petRequests.length} Requests
+                    </span>
+                  </div>
+
+                  {petRequests.map((request) => (
+                    <div
+                      key={request._id}
+                      className="rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/30"
+                    >
+                      {/* TOP SECTION */}
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <h2 className="text-lg font-bold text-foreground">
                             {request.userName}
                           </h2>
 
-                          <p className="text-sm text-default-500">
+                          <p className="text-sm text-muted-foreground mt-1">
                             {request.userEmail}
                           </p>
-
-                          {/* PICKUP DATE */}
-                          <p className="text-sm">
-                            <span className="font-medium">Pickup Date:</span>{" "}
-                            {request.pickupDate || "Not set"}
-                          </p>
-
-                          {/* STATUS */}
-                          <p className="text-sm">
-                            Status:{" "}
-                            <span className="font-medium capitalize">
-                              {request.status}
-                            </span>
-                          </p>
-
-                          {/* ACTIONS */}
-                          <div className="flex gap-3 mt-4">
-                            {request.status === "pending" ? (
-                              <>
-                                <button
-                                  onClick={() =>
-                                    handleStatus(request._id, "approved")
-                                  }
-                                  className="px-4 py-2 rounded-lg bg-green-500 text-white text-sm font-medium hover:opacity-90 transition"
-                                >
-                                  Approve
-                                </button>
-
-                                <button
-                                  onClick={() =>
-                                    handleStatus(request._id, "rejected")
-                                  }
-                                  className="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:opacity-90 transition"
-                                >
-                                  Reject
-                                </button>
-                              </>
-                            ) : (
-                              <div
-                                className={`px-3 py-1 rounded-lg text-sm font-semibold ${
-                                  request.status === "approved"
-                                    ? "bg-green-100 text-green-700"
-                                    : "bg-red-100 text-red-700"
-                                }`}
-                              >
-                                {request.status === "approved"
-                                  ? "Approved"
-                                  : "Rejected"}
-                              </div>
-                            )}
-                          </div>
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </Modal.Body>
 
-                <Modal.Footer>
-                  <Button slot="close" variant="secondary">
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal.Dialog>
-            </Modal.Container>
-          </Modal.Backdrop>
-        </Modal>
-      ))}
-    </div>
+                        {/* STATUS BADGE */}
+                        <div
+                          className={`px-3 py-1 rounded-full text-xs font-semibold capitalize border ${
+                            request.status === "approved"
+                              ? "bg-green-500/10 text-green-600 border-green-500/20"
+                              : request.status === "rejected"
+                                ? "bg-red-500/10 text-red-600 border-red-500/20"
+                                : "bg-primary/10 text-primary border-primary/20"
+                          }`}
+                        >
+                          {request.status}
+                        </div>
+                      </div>
+
+                      {/* INFO */}
+                      <div className="mt-4 space-y-2">
+                        <div className="flex items-center justify-between text-sm rounded-xl bg-muted/40 px-4 py-3 border border-border">
+                          <span className="text-muted-foreground">
+                            Pickup Date
+                          </span>
+
+                          <span className="font-medium text-foreground">
+                            {request.pickupDate || "Not set"}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* ACTIONS */}
+                      <div className="flex gap-3 mt-5">
+                        {request.status === "pending" ? (
+                          <>
+                            {/* APPROVE */}
+                            <button
+                              disabled={actionLoading === request._id}
+                              onClick={() =>
+                                handleStatus(request._id, "approved")
+                              }
+                              className="flex-1 rounded-xl bg-primary text-primary-foreground px-4 py-2.5 text-sm font-semibold transition-all duration-300 hover:opacity-90 hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              {actionLoading === request._id
+                                ? "Loading..."
+                                : "Approve"}
+                            </button>
+
+                            {/* REJECT */}
+                            <button
+                              disabled={actionLoading === request._id}
+                              onClick={() =>
+                                handleStatus(request._id, "rejected")
+                              }
+                              className="flex-1 rounded-xl border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground transition-all duration-300 hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              {actionLoading === request._id
+                                ? "Loading..."
+                                : "Reject"}
+                            </button>
+                          </>
+                        ) : (
+                          <div
+                            className={`w-full rounded-xl py-2.5 text-center text-sm font-semibold border ${
+                              request.status === "approved"
+                                ? "bg-green-500/10 text-green-600 border-green-500/20"
+                                : "bg-red-500/10 text-red-600 border-red-500/20"
+                            }`}
+                          >
+                            Request {request.status}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Modal.Body>
+
+            <Modal.Footer className="border-t border-border pt-4">
+              <Button
+                slot="close"
+                variant="secondary"
+                className="bg-muted text-foreground hover:bg-muted/80"
+              >
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal>
+  ))}
+</div>
   );
 }

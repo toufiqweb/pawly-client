@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 export function DeleteRequest({ request }) {
   const id = request?._id;
   const handleCancel = async () => {
-
     const { data: tokenData } = await authClient.token();
     const token = tokenData?.token;
 
@@ -15,9 +14,9 @@ export function DeleteRequest({ request }) {
       `${process.env.NEXT_PUBLIC_API_URL}/requests/${id}`,
       {
         method: "DELETE",
-        headers : {
-          authorization : `Bearer ${token}`
-        }
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       },
     );
 
@@ -43,12 +42,12 @@ export function DeleteRequest({ request }) {
             <AlertDialog.Header>
               <AlertDialog.Icon status="danger" />
               <AlertDialog.Heading>
-                Delete project permanently?
+                Delete {request?.petName}?
               </AlertDialog.Heading>
             </AlertDialog.Header>
             <AlertDialog.Body>
               <p className="text-muted-foreground">
-                This will permanently delete <strong>My Awesome Project</strong>{" "}
+                This will permanently delete <strong>{request?.petName}</strong>{" "}
                 and all of its data. This action cannot be undone.
               </p>
             </AlertDialog.Body>

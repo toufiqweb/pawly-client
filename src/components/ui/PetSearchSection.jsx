@@ -18,7 +18,7 @@ const PetSearchSection = () => {
     if (species) {
       params.set("species", species);
     }
-
+ 
     router.push(`/all-pets?${params.toString()}`);
   };
 

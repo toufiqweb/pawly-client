@@ -4,18 +4,18 @@ import PetDetailPageContent from "@/components/ui/PetDetailPageContent";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import OwnerWarningCard from "@/components/ui/OwnerWarningCard";
 
 const PetDetailsPage = async ({ params }) => {
   const { petId } = await params;
 
   const { token } = await auth.api.getToken({
-    headers: await headers(), 
+    headers: await headers(),
   });
 
   // console.log(token);
-  
 
-  const pet = await getPetById(petId , token);
+  const pet = await getPetById(petId, token);
 
   // console.log(pet);
   const session = await auth.api.getSession({
@@ -41,9 +41,11 @@ const PetDetailsPage = async ({ params }) => {
         <PetDetailPageContent pet={pet} />
 
         {userEmail === pet.ownerEmail ? (
-          <span>Owner</span>
+          <div className=" lg:col-span-4 lg:sticky lg:top-24">
+            <OwnerWarningCard />
+          </div>
         ) : (
-          <PetDetailAdoptForm pet={pet}  token={token}/>
+          <PetDetailAdoptForm pet={pet} token={token} />
         )}
       </div>
     </main>

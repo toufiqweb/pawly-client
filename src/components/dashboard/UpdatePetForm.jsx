@@ -3,9 +3,12 @@
 import { authClient } from "@/lib/auth-client";
 import { PawPrint, MapPin, ImageIcon, CheckCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function UpdatePetForm({ pet }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const { data: session } = authClient.useSession();
   const user = session?.user;
 
@@ -43,6 +46,7 @@ export default function UpdatePetForm({ pet }) {
     };
 
     try {
+      setLoading(true);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/pets/${petId}`,
         {
@@ -56,11 +60,22 @@ export default function UpdatePetForm({ pet }) {
       );
 
       const result = await res.json();
-    } catch (error) {}
+
+      setLoading(false);
+      if (res.ok) {
+        toast.success("Pet updated successfully!");
+        router.push("/dashboard/my-listings");
+        router.refresh();
+      } else {
+        toast.error(result?.message || "Update failed!");
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
   };
 
   return (
-    <div className="bg-background max-w-7xl mx-auto rounded-xl border border-border shadow-lg overflow-hidden">
+    <div className="bg-background container mx-auto rounded-xl border border-border shadow-lg overflow-hidden">
       {/* Header */}
       <div className="bg-muted px-6 py-5 border-b border-border flex items-center gap-3">
         <PawPrint className="w-5 h-5 text-primary fill-primary" />

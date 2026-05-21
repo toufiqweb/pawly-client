@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Trash2, X } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
 
 export default function DeleteListingModal({ petId }) {
   const [open, setOpen] = useState(false);
@@ -18,21 +19,29 @@ export default function DeleteListingModal({ petId }) {
   }, []);
 
   const handleDelete = async () => {
+    try {
+      const { data: tokenData } = await authClient.token();
+      const token = tokenData?.token;
 
-    const { data: tokenData } = await authClient.token();
-    const token = tokenData?.token;
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/pets/${petId}`,
+        {
+          method: "DELETE",
+          headers: { authorization: `Bearer ${token}` },
+        },
+      );
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/pets/${petId}`,
-      {
-        method: "DELETE",
-        headers: { authorization: `Bearer ${token}` },
-      },
-    );
-
-    if (res.ok) {
+      if (!res.ok) {
+        toast.error("Failed to delete listing");
+        return;
+      }
+      toast.success("Listing deleted successfully");
       setOpen(false);
-      window.location.reload(); // or better: mutate state
+
+      // better than reload (optional)
+      window.location.reload();
+    } catch (error) {
+      toast.error("Something went wrong");
     }
   };
 
@@ -41,7 +50,7 @@ export default function DeleteListingModal({ petId }) {
       {/* Trigger Button */}
       <button
         onClick={() => setOpen(true)}
-        className="col-span-2 border border-destructive/30 text-destructive
+        className="w-full border border-destructive/30 text-destructive
     hover:bg-destructive/10 transition-all rounded-xl py-2.5 flex items-center 
     justify-center gap-2 text-sm font-semibold"
       >
