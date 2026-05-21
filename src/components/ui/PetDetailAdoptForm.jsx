@@ -2,15 +2,17 @@
 import { authClient } from "@/lib/auth-client";
 import { CalendarDays } from "lucide-react";
 import React from "react";
+import toast from "react-hot-toast";
 
-const PetDetailAdoptForm = ({ pet }) => {
+const PetDetailAdoptForm = ({ pet ,token }) => {
   const {
     data: session,
     isPending, //loading state
     error, //error object
     refetch, //refetch the session
   } = authClient.useSession();
-
+  // const { data: TokenData } = authClient.token();
+  // console.log(" token data", token);
 
   const user = session?.user;
   const handleAdopt = async (e) => {
@@ -42,6 +44,7 @@ const PetDetailAdoptForm = ({ pet }) => {
         method: "POST",
         headers: {
           "content-type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(adoptionData),
       },
@@ -49,12 +52,9 @@ const PetDetailAdoptForm = ({ pet }) => {
 
     const data = await res.json();
 
-    // if (data.insertedId) {
-    //   toast.success("Request Sent");
-    // }
-
-
-    
+    if (data.insertedId) {
+      toast.success("Request Sent");
+    }
   };
 
   return (

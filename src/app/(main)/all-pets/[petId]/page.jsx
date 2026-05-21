@@ -7,7 +7,15 @@ import { headers } from "next/headers";
 
 const PetDetailsPage = async ({ params }) => {
   const { petId } = await params;
-  const pet = await getPetById(petId);
+
+  const { token } = await auth.api.getToken({
+    headers: await headers(), 
+  });
+
+  // console.log(token);
+  
+
+  const pet = await getPetById(petId , token);
 
   // console.log(pet);
   const session = await auth.api.getSession({
@@ -35,7 +43,7 @@ const PetDetailsPage = async ({ params }) => {
         {userEmail === pet.ownerEmail ? (
           <span>Owner</span>
         ) : (
-          <PetDetailAdoptForm pet={pet} />
+          <PetDetailAdoptForm pet={pet}  token={token}/>
         )}
       </div>
     </main>

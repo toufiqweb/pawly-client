@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Rocket } from "@gravity-ui/icons";
 import { Button, Modal } from "@heroui/react";
 import { Users } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
 
 export function RequestsModal({ petId }) {
   const sizes = ["lg"];
@@ -16,16 +18,20 @@ export function RequestsModal({ petId }) {
     try {
       setLoading(true);
 
+      const { data: tokenData } = await authClient.token();
+      const token = tokenData?.token;
+      // console.log(token);
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/requests?petId=${id}`,
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
       );
-      const data = await res.json();      
-
+      const data = await res.json();
 
       setPetRequests(data);
     } catch (error) {
-
     } finally {
       setLoading(false);
     }
@@ -33,37 +39,45 @@ export function RequestsModal({ petId }) {
 
   // UPDATE REQUEST STATUS
   const handleStatus = async (id, status) => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/requests/${id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "content-type": "application/json",
+    try {
+      const { data: tokenData } = await authClient.token();
+      const token = tokenData?.token;
+      // console.log(token);
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/requests/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ status }),
         },
-        body: JSON.stringify({ status }),
-      }
-    );
-
-    const data = await res.json();
-
-    if (data.modifiedCount) {
-      // শুধু selected request update করো
-      setPetRequests((prev) =>
-        prev.map((request) =>
-          request._id === id
-            ? { ...request, status }
-            : request
-        )
       );
 
-      toast.success(`Request ${status}`);
-    }
-  } catch (error) {
+      const data = await res.json();
 
-    toast.error("Something went wrong");
-  }
-};
+      // if (res.ok) {
+      //   setPetRequests((prev) =>
+      //     prev.map((request) =>
+      //       request._id === id ? { ...request, status } : request,
+      //     ),
+      //   );
+
+      //   toast.success(`Request ${status}`);
+      // }
+
+      if (res.ok) {
+        // আবার সব request fetch করো
+        await getPetRequests(petId);
+
+        toast.success(`Request ${status}`);
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
   return (
     <div className="flex flex-wrap gap-4">
       {sizes.map((size) => (

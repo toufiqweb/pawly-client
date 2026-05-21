@@ -9,8 +9,20 @@ export default function UpdatePetForm({ pet }) {
   const { data: session } = authClient.useSession();
   const user = session?.user;
 
+  console.log(pet);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const { data: tokenData } = await authClient.token();
+    // console.log(TokenData);
+    const token = tokenData?.token;
+    const petId = pet?._id;
+
+    // console.log( token);
+
+    //   console.log("PET OBJECT:", pet);
+    // console.log("PET ID:", pet?._id);
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
@@ -32,19 +44,19 @@ export default function UpdatePetForm({ pet }) {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/pets/${pet?._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/pets/${petId}`,
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify(petData),
         },
       );
 
       const result = await res.json();
-
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   return (

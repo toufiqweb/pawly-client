@@ -35,23 +35,23 @@ export default function AddPetForm() {
       createdAt: new Date(),
     };
 
+    const { data: tokenData } = await authClient.token();
+    const token = tokenData?.token;
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pets`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(petData),
       });
 
       const result = await res.json();
 
-
-
       e.target.reset();
-    } catch (error) {
-;
-    }
+    } catch (error) {}
   };
 
   return (

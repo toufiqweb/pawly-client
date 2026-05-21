@@ -1,11 +1,16 @@
 import UpdatePetForm from "@/components/dashboard/UpdatePetForm";
+import { auth } from "@/lib/auth";
 import { getPetById } from "@/lib/data/pets";
 import { ArrowLeft, Pencil } from "lucide-react";
+import { headers } from "next/headers";
 import Link from "next/link";
 
 const MyListingEditPage = async ({ params }) => {
   const { id } = await params;
-  const pet = await getPetById(id);
+    const { token } = await auth.api.getToken({
+    headers: await headers(), 
+  });
+  const pet = await getPetById(id , token);
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-10 space-y-8 bg-background text-foreground">

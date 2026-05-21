@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Plus } from "lucide-react";
 import ListingCard from "@/components/dashboard/ListingCard";
 import { auth } from "@/lib/auth";
@@ -11,13 +10,18 @@ export default async function MyListingsPage() {
     headers: await headers(),
   });
 
-  const user = session?.user;
-  const listing = await getUserListing(user?.email);
+  const { token } = await auth.api.getToken({
+    headers: await headers(), 
+  });
+
+  const email = session?.user?.email;
+  const listing = await getUserListing(email , token);
+
+
+  
   const availableListing = listing.filter(
     (list) => list.status === "available",
   );
-
-
 
   const adoptedListing = listing.filter((list) => list.status === "adopted");
 

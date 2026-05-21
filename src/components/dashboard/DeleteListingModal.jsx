@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Trash2, X } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 export default function DeleteListingModal({ petId }) {
   const [open, setOpen] = useState(false);
@@ -17,10 +18,15 @@ export default function DeleteListingModal({ petId }) {
   }, []);
 
   const handleDelete = async () => {
+
+    const { data: tokenData } = await authClient.token();
+    const token = tokenData?.token;
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/pets/${petId}`,
       {
         method: "DELETE",
+        headers: { authorization: `Bearer ${token}` },
       },
     );
 

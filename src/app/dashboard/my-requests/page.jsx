@@ -1,7 +1,6 @@
 import MyAdoptionRequests from "@/components/dashboard/MyAdoptionRequests";
 import { auth } from "@/lib/auth";
 import { getMyRequests } from "@/lib/data/requests";
-import { FileText } from "lucide-react";
 import { headers } from "next/headers";
 import React from "react";
 
@@ -9,8 +8,12 @@ const MyRequestsPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(), // you need to pass the headers object.
   });
+
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
   const user = session?.user;
-  const requests = await getMyRequests(user?.email);
+  const requests = await getMyRequests(user?.email , token);
 
   return (
     <div className="relative min-h-screen bg-background overflow-hidden container mx-auto px-4 md:px-6 py-10">

@@ -1,15 +1,10 @@
-// export const getMyRequests = async (email) => {
-//   const res = await fetch(
-//     `${process.env.NEXT_PUBLIC_API_URL}/requests/${email}`,
-//   );
 
-//   const data = await res.json();
-
-//   return data;
-// };
-export const getMyRequests = async (email) => {
+export const getMyRequests = async (email , token) => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/requests?userEmail=${encodeURIComponent(email)}`
+    `${process.env.NEXT_PUBLIC_API_URL}/requests?userEmail=${encodeURIComponent(email)}` ,
+    {
+      headers: { authorization: `Bearer ${token}` },
+    }
   );
 
   if (!res.ok) {
@@ -21,7 +16,10 @@ export const getMyRequests = async (email) => {
 };
 export const getRequestByPetId = async (petId) => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/requests?petId=${encodeURIComponent(petId)}`
+    `${process.env.NEXT_PUBLIC_API_URL}/requests?petId=${encodeURIComponent(petId)}` ,
+    {
+      headers: { authorization: `Bearer ${token}` },
+    }
   );
 
   if (!res.ok) {
