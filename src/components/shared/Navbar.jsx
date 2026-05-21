@@ -13,6 +13,7 @@ import {
   PlusCircle,
   Grid3X3,
   Home,
+  ClipboardList,
 } from "lucide-react";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -91,10 +92,19 @@ const Navbar = () => {
             </NavLinks>
             {user && (
               <>
-                <NavLinks href="/favorites">
+                {/* My Requests */}
+                <NavLinks href="/dashboard/my-requests">
                   <div className="flex items-center gap-2">
-                    <HeartHandshake className="w-4 h-4" />
-                    Favorites
+                    <ClipboardList className="w-4 h-4" />
+                    My Requests
+                  </div>
+                </NavLinks>
+
+                {/* Add Pet */}
+                <NavLinks href="/dashboard/add-pet">
+                  <div className="flex items-center gap-2">
+                    <PlusCircle className="w-4 h-4" />
+                    Add Pet
                   </div>
                 </NavLinks>
               </>
@@ -250,13 +260,21 @@ const Navbar = () => {
 
                 {user && (
                   <>
-                    <NavLinks href="/favorites">
+                    {/* My Requests */}
+                    <NavLinks href="/dashboard/my-requests">
                       <div className="flex items-center gap-2">
-                        <HeartHandshake className="w-4 h-4" />
-                        Favorites
+                        <ClipboardList className="w-4 h-4" />
+                        My Requests
                       </div>
                     </NavLinks>
 
+                    {/* Add Pet */}
+                    <NavLinks href="/dashboard/add-pet">
+                      <div className="flex items-center gap-2">
+                        <PlusCircle className="w-4 h-4" />
+                        Add Pet
+                      </div>
+                    </NavLinks>
                     <NavLinks href="/dashboard">
                       <div className="flex items-center gap-2">
                         <LayoutDashboard className="w-4 h-4" />

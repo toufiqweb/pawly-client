@@ -1,10 +1,10 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
-import { CalendarDays } from "lucide-react";
-import React from "react";
+import { CalendarDays, CheckCircle } from "lucide-react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-const PetDetailAdoptForm = ({ pet ,token }) => {
+const PetDetailAdoptForm = ({ pet, token }) => {
   const {
     data: session,
     isPending, //loading state
@@ -15,9 +15,13 @@ const PetDetailAdoptForm = ({ pet ,token }) => {
   // console.log(" token data", token);
 
   const user = session?.user;
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const handleAdopt = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const formData = new FormData(e.target);
     const adoptionFormData = Object.fromEntries(formData.entries());
 
@@ -51,12 +55,31 @@ const PetDetailAdoptForm = ({ pet ,token }) => {
     );
 
     const data = await res.json();
-
+    setLoading(false);
     if (data.insertedId) {
       toast.success("Request Sent");
+      setIsSubmitted(true); // ✅ hide form
+    } else {
+      toast.error("Something went wrong");
     }
   };
 
+  if (isSubmitted) {
+    return (
+      <aside className="lg:col-span-4 lg:sticky lg:top-24">
+        <div className="bg-card rounded-[24px] border border-border p-8 text-center shadow-sm">
+          <CheckCircle className="w-12 h-12 mx-auto text-green-500 mb-4" />
+
+          <h2 className="text-2xl font-bold mb-2">Request Sent Successfully</h2>
+
+          <p className="text-muted-foreground">
+            Your adoption request has been sent to the owner. You’ll get a
+            response soon.
+          </p>
+        </div>
+      </aside>
+    );
+  }
   return (
     <aside className="lg:col-span-4 lg:sticky lg:top-24">
       <div className="bg-card rounded-[24px] border border-border p-6 md:p-8 shadow-sm">
@@ -144,9 +167,10 @@ const PetDetailAdoptForm = ({ pet ,token }) => {
           {/* BUTTON */}
           <button
             type="submit"
+            disabled={loading}
             className="w-full h-14 rounded-2xl bg-primary cursor-pointer text-primary-foreground font-bold shadow-md hover:opacity-90 hover:scale-[0.99] transition-all duration-200"
           >
-            Send Adoption Request
+            {loading ? "Sending..." : "Send Adoption Request"}
           </button>
 
           <p className="text-center text-sm text-muted-foreground">

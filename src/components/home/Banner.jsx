@@ -136,7 +136,7 @@ const Banner = () => {
                 {/* Hover Glow */}
                 <span className="absolute inset-0 bg-white/0 transition duration-300 group-hover:bg-white/5" />
 
-                <span className="relative z-10">Browse Pets</span>
+                <span className="relative z-10">Adopt Now</span>
 
                 <ArrowRight
                   size={20}

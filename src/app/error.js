@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { Home, RefreshCcw } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export default function ErrorPage({
   title = "Something went wrong",
@@ -28,22 +27,21 @@ export default function ErrorPage({
 
         {/* Actions */}
         <div className="flex items-center justify-center gap-3">
-          <Button
+          <button
             onClick={() => router.push("/")}
             className="bg-[var(--primary)] hover:opacity-90 text-[var(--primary-foreground)] flex items-center gap-2 rounded-xl px-5"
           >
             <Home size={18} />
             Home
-          </Button>
+          </button>
 
-          <Button
-            variant="outline"
+          <button
             onClick={() => window.location.reload()}
             className="border-border text-[var(--foreground)] hover:bg-[var(--muted)] flex items-center gap-2 rounded-xl px-5"
           >
             <RefreshCcw size={18} />
             Retry
-          </Button>
+          </button>
         </div>
 
         {/* subtle footer */}
