@@ -2,7 +2,7 @@
 
 import {
   Menu,
-  PawPrint,
+  NotebookPen,
   User,
   X,
   LogOut,
@@ -102,7 +102,22 @@ const Navbar = () => {
                 targetPath="/"
               />
             </NavLinks>
-
+            <NavLinks href="/all-pets">
+              <MenuLinkIcon
+                icon={Grid3X3}
+                label="All-Pets"
+                currentPath={pathname}
+                targetPath="/all-pets"
+              />
+            </NavLinks>
+            <NavLinks href="/blogs">
+              <MenuLinkIcon
+                icon={NotebookPen}
+                label="Blogs"
+                currentPath={pathname}
+                targetPath="/blogs"
+              />
+            </NavLinks>
             {user && (
               <>
                 <NavLinks href="/dashboard/my-requests">
@@ -124,15 +139,6 @@ const Navbar = () => {
                 </NavLinks>
               </>
             )}
-
-            <NavLinks href="/all-pets">
-              <MenuLinkIcon
-                icon={Grid3X3}
-                label="All-Pets"
-                currentPath={pathname}
-                targetPath="/all-pets"
-              />
-            </NavLinks>
           </div>
 
           {/* Right Side UI Elements */}
@@ -285,6 +291,14 @@ const Navbar = () => {
                     label="All-Pets"
                     currentPath={pathname}
                     targetPath="/all-pets"
+                  />
+                </NavLinks>
+                <NavLinks href="/blogs">
+                  <MenuLinkIcon
+                    icon={NotebookPen}
+                    label="Blogs"
+                    currentPath={pathname}
+                    targetPath="/blogs"
                   />
                 </NavLinks>
 

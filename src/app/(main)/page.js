@@ -2,6 +2,7 @@ import Banner from "@/components/home/Banner";
 import FAQSection from "@/components/home/FAQSection";
 import FeaturedPets from "@/components/home/FeaturedPets";
 import HealthSafetySection from "@/components/home/HealthSafetySection";
+import PetBlog from "@/components/home/PetBlog";
 import PetCareServices from "@/components/home/PetCareServices";
 import StatsSection from "@/components/home/StatsSection";
 import SuccessStories from "@/components/home/SuccessStories";
@@ -16,6 +17,7 @@ export default function Home() {
       <WhyAdoptSection/>
       <SuccessStories/>
       <FAQSection/>
+      <PetBlog/>
       <PetCareServices/>
       <HealthSafetySection/>
     </div>
