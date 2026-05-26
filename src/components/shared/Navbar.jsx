@@ -24,6 +24,7 @@ import { Button } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
+import logo from "@/assets/pawlyLogo.png";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -81,38 +82,56 @@ const Navbar = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          
           {/* Logo Section */}
           <Link
             href="/"
             className="flex items-center gap-2 text-2xl font-bold hover:text-primary transition-colors"
           >
-            <div className="p-2 rounded-xl bg-primary/10">
-              <PawPrint className="text-primary w-6 h-6" />
-            </div>
+            <Image src={logo} alt="Pawly Logo" className="w-12 h-12" />
+
             <span style={{ fontFamily: "var(--font-poppins)" }}>Pawly</span>
           </Link>
 
           {/* Desktop Menu with Active States */}
           <div className="hidden md:flex items-center gap-1 bg-muted/30 p-1.5 rounded-full border border-border/40 backdrop-blur-sm">
             <NavLinks href="/">
-              <MenuLinkIcon icon={Home} label="Home" currentPath={pathname} targetPath="/" />
+              <MenuLinkIcon
+                icon={Home}
+                label="Home"
+                currentPath={pathname}
+                targetPath="/"
+              />
             </NavLinks>
 
             {user && (
               <>
                 <NavLinks href="/dashboard/my-requests">
-                  <MenuLinkIcon icon={ClipboardList} label="My Requests" currentPath={pathname} targetPath="/dashboard/my-requests" />
+                  <MenuLinkIcon
+                    icon={ClipboardList}
+                    label="My Requests"
+                    currentPath={pathname}
+                    targetPath="/dashboard/my-requests"
+                  />
                 </NavLinks>
 
                 <NavLinks href="/dashboard/add-pet">
-                  <MenuLinkIcon icon={PlusCircle} label="Add Pet" currentPath={pathname} targetPath="/dashboard/add-pet" />
+                  <MenuLinkIcon
+                    icon={PlusCircle}
+                    label="Add Pet"
+                    currentPath={pathname}
+                    targetPath="/dashboard/add-pet"
+                  />
                 </NavLinks>
               </>
             )}
 
             <NavLinks href="/all-pets">
-              <MenuLinkIcon icon={Grid3X3} label="All-Pets" currentPath={pathname} targetPath="/all-pets" />
+              <MenuLinkIcon
+                icon={Grid3X3}
+                label="All-Pets"
+                currentPath={pathname}
+                targetPath="/all-pets"
+              />
             </NavLinks>
           </div>
 
@@ -126,7 +145,10 @@ const Navbar = () => {
                 <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
               </div>
             ) : user ? (
-              <div className="relative hidden md:block" onClick={(e) => e.stopPropagation()}>
+              <div
+                className="relative hidden md:block"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <button
                   onClick={() => setProfileOpen(!profileOpen)}
                   className="flex items-center gap-2.5 border border-border/60 bg-background/50 hover:bg-muted/40 hover:border-border transition-all duration-200 rounded-full pl-1.5 pr-3 py-1.5 group shadow-sm shadow-black/5"
@@ -162,7 +184,11 @@ const Navbar = () => {
                       initial={{ opacity: 0, y: 12, scale: 0.96 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 12, scale: 0.96 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 28,
+                      }}
                       className="absolute right-0 mt-2.5 w-60 rounded-xl border border-border/50 bg-background/95 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.45)] overflow-hidden origin-top-right p-1.5 z-50"
                     >
                       <div className="px-3 py-2.5 mb-1 bg-muted/40 rounded-lg border border-border/30">
@@ -198,7 +224,9 @@ const Navbar = () => {
                           ) : (
                             <LogOut className="w-4 h-4" />
                           )}
-                          <span>{isLoggingOut ? "Logging out..." : "Logout"}</span>
+                          <span>
+                            {isLoggingOut ? "Logging out..." : "Logout"}
+                          </span>
                         </button>
                       </div>
                     </motion.div>
@@ -238,27 +266,55 @@ const Navbar = () => {
             className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-md overflow-hidden"
           >
             <div className="px-4 py-4 space-y-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
-              <div className="flex flex-col gap-1.5" onClick={() => setMobileMenuOpen(false)}>
+              <div
+                className="flex flex-col gap-1.5"
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 <NavLinks href="/">
-                  <MobileMenuLinkIcon icon={Home} label="Home" currentPath={pathname} targetPath="/" />
+                  <MobileMenuLinkIcon
+                    icon={Home}
+                    label="Home"
+                    currentPath={pathname}
+                    targetPath="/"
+                  />
                 </NavLinks>
 
                 <NavLinks href="/all-pets">
-                  <MobileMenuLinkIcon icon={Grid3X3} label="All-Pets" currentPath={pathname} targetPath="/all-pets" />
+                  <MobileMenuLinkIcon
+                    icon={Grid3X3}
+                    label="All-Pets"
+                    currentPath={pathname}
+                    targetPath="/all-pets"
+                  />
                 </NavLinks>
 
                 {user && (
                   <>
                     <NavLinks href="/dashboard/my-requests">
-                      <MobileMenuLinkIcon icon={ClipboardList} label="My Requests" currentPath={pathname} targetPath="/dashboard/my-requests" />
+                      <MobileMenuLinkIcon
+                        icon={ClipboardList}
+                        label="My Requests"
+                        currentPath={pathname}
+                        targetPath="/dashboard/my-requests"
+                      />
                     </NavLinks>
 
                     <NavLinks href="/dashboard/add-pet">
-                      <MobileMenuLinkIcon icon={PlusCircle} label="Add Pet" currentPath={pathname} targetPath="/dashboard/add-pet" />
+                      <MobileMenuLinkIcon
+                        icon={PlusCircle}
+                        label="Add Pet"
+                        currentPath={pathname}
+                        targetPath="/dashboard/add-pet"
+                      />
                     </NavLinks>
 
                     <NavLinks href="/dashboard">
-                      <MobileMenuLinkIcon icon={LayoutDashboard} label="Dashboard" currentPath={pathname} targetPath="/dashboard" />
+                      <MobileMenuLinkIcon
+                        icon={LayoutDashboard}
+                        label="Dashboard"
+                        currentPath={pathname}
+                        targetPath="/dashboard"
+                      />
                     </NavLinks>
                   </>
                 )}
@@ -288,8 +344,12 @@ const Navbar = () => {
                       )}
 
                       <div className="overflow-hidden">
-                        <p className="text-sm font-semibold text-foreground truncate">{user?.name}</p>
-                        <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                        <p className="text-sm font-semibold text-foreground truncate">
+                          {user?.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground truncate">
+                          {user?.email}
+                        </p>
                       </div>
                     </div>
 
@@ -333,7 +393,13 @@ const Navbar = () => {
 };
 
 // Desktop Menu Items Icon Helper Component
-const MenuLinkIcon = ({ icon: Icon, label, currentPath, targetPath, isActive }) => {
+const MenuLinkIcon = ({
+  icon: Icon,
+  label,
+  currentPath,
+  targetPath,
+  isActive,
+}) => {
   const active = isActive || currentPath === targetPath;
   return (
     <div
@@ -350,7 +416,13 @@ const MenuLinkIcon = ({ icon: Icon, label, currentPath, targetPath, isActive }) 
 };
 
 // Mobile Drawer Items Icon Helper Component
-const MobileMenuLinkIcon = ({ icon: Icon, label, currentPath, targetPath, isActive }) => {
+const MobileMenuLinkIcon = ({
+  icon: Icon,
+  label,
+  currentPath,
+  targetPath,
+  isActive,
+}) => {
   const active = isActive || currentPath === targetPath;
   return (
     <div

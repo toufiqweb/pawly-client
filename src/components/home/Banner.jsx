@@ -78,7 +78,7 @@ const Banner = () => {
       >
         {currentSlides.map((image, index) => (
           <SwiperSlide key={index}>
-            <div className="relative h-[70vh] md:h-[80vh] lg:h-screen w-full overflow-hidden">
+            <div className="relative h-[80vh] lg:h-screen w-full overflow-hidden">
               {/* Background Image (Fixed Syntax Error) */}
               <div
                 style={{

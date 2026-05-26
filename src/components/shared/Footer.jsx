@@ -1,6 +1,9 @@
 import Link from "next/link";
-import { PawPrint, Share2, Send } from "lucide-react";
+import {  Share2, Send } from "lucide-react";
 import { LuFacebook } from "react-icons/lu";
+import Image from "next/image"
+import logo from "@/assets/pawlyLogo.png";
+;
 const Footer = () => {
   return (
     <footer className="bg-card text-foreground border-t border-border py-20">
@@ -8,7 +11,8 @@ const Footer = () => {
         {/* Brand Section */}
         <div>
           <div className="flex items-center gap-2 mb-6">
-            <PawPrint className="text-primary w-7 h-7" />
+            <Image src={logo} alt="Pawly Logo" className="w-12 h-12" />
+
             <span className="text-2xl font-bold">Pawly</span>
           </div>
 
@@ -22,7 +26,7 @@ const Footer = () => {
               href="#"
               className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition"
             >
-              <LuFacebook className="w-4 h-4"/>
+              <LuFacebook className="w-4 h-4" />
             </Link>
 
             <Link

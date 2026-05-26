@@ -5,6 +5,7 @@ import { ThemeSwitch } from "../ui/ThemeSwitch";
 import MobileSidebar from "./MobileSidebar";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import logo from "@/assets/pawlyLogo.png";
 
 const DashboardNavbar = async () => {
   const session = await auth.api.getSession({
@@ -37,9 +38,7 @@ const DashboardNavbar = async () => {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-            <div className="rounded-xl bg-primary/10 p-2">
-              <PawPrint className="h-5 w-5 text-primary" />
-            </div>
+            <Image src={logo} alt="Pawly Logo" className="w-12 h-12" />
 
             <span
               className="hidden sm:block"
