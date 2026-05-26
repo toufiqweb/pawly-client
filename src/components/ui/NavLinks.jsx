@@ -4,12 +4,13 @@ import React from "react";
 
 const NavLinks = ({ children, href }) => {
   const pathname = usePathname();
+  const isActive = pathname === href;
+
   return (
-    <Link
-      href={href}
-      className={`${pathname === href ? "text-primary" : "text-muted-foreground"} text-sm font-medium transition-colors hover:text-primary `}
-    >
-      {children}
+    <Link href={href} className="block">
+      {React.isValidElement(children)
+        ? React.cloneElement(children, { isActive })
+        : children}
     </Link>
   );
 };
