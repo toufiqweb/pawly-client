@@ -32,7 +32,7 @@ export function DeleteRequest({ request }) {
 
   return (
     <AlertDialog>
-      <Button className="rounded-lg bg-destructive px-4 py-2 text-sm font-semibold text-destructive-foreground transition-opacity hover:opacity-90">
+      <Button variant="outline" className="bg-destructive text-destructive-foreground rounded-lg px-4 py-2 text-sm font-semibold transition-opacity hover:opacity-90">
         Cancel
       </Button>
       <AlertDialog.Backdrop>

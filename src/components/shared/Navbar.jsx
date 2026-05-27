@@ -78,7 +78,7 @@ const Navbar = () => {
           : "sticky top-0 bg-background/40 backdrop-blur-md border-b border-border/40 shadow-sm"
       }`}
     >
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(var(--primary-rgb),0.03),_transparent_45%)] pointer-events-none" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(var(--primary-rgb),0.03),transparent_45%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -93,7 +93,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Menu with Active States */}
-          <div className="hidden md:flex items-center gap-1 bg-muted/30 p-1.5 rounded-full border border-border/40 backdrop-blur-sm">
+          <div className="hidden lg:flex items-center gap-1 bg-muted/30 p-1.5 rounded-full border border-border/40 backdrop-blur-sm">
             <NavLinks href="/">
               <MenuLinkIcon
                 icon={Home}
@@ -252,7 +252,7 @@ const Navbar = () => {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-full border border-border/40 bg-muted/20 text-muted-foreground hover:text-foreground transition-colors"
+              className="lg:hidden p-2 rounded-full border border-border/40 bg-muted/20 text-muted-foreground hover:text-foreground transition-colors"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -269,7 +269,7 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 28 }}
-            className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-md overflow-hidden"
+            className="lg:hidden border-t border-border/40 bg-background/95 backdrop-blur-md overflow-hidden"
           >
             <div className="px-4 py-4 space-y-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
               <div

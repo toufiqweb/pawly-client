@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Eye, XCircle, Clock3 } from "lucide-react";
+import { Eye, XCircle, Clock3, CheckCircle2 } from "lucide-react";
 import { DeleteRequest } from "./DeleteRequest";
 import Link from "next/link";
 
@@ -116,20 +116,20 @@ export default function MyAdoptionRequests({ requests }) {
                   {/* STATUS */}
                   <td className="px-6 py-5">
                     {request.status === "rejected" && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-destructive/10 px-3 py-1 text-xs font-semibold text-destructive">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-destructive/10 px-3 py-1 text-xs font-semibold text-destructive border border-destructive/20">
                         <XCircle size={13} />
                         Rejected
                       </span>
                     )}
                     {request.status === "pending" && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/20 px-3 py-1 text-xs font-semibold text-primary">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-800 dark:bg-amber-950/40 dark:text-amber-400 border border-amber-200/60 dark:border-amber-900/30">
                         <Clock3 size={13} />
                         Pending
                       </span>
                     )}
                     {request.status === "approved" && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-500">
-                        <Clock3 size={13} />
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-xs font-semibold text-foreground dark:text-primary border border-border">
+                        <CheckCircle2 size={13} className="text-primary" />
                         Approved
                       </span>
                     )}

@@ -39,81 +39,82 @@ export default function PetLoadingScreen() {
     };
 
     timeout = setTimeout(updateLoading, 500);
-
     return () => clearTimeout(timeout);
   }, []);
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f8f2ec] px-6 py-10 text-center">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-6 py-10 text-center text-foreground transition-colors duration-300">
       {/* Background Grain */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.03] bg-[url('/noise.png')]" />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.02] bg-[url('/noise.png')] dark:opacity-[0.04]" />
 
-      {/* Content */}
+      {/* Content Container */}
       <div className="relative z-10 flex w-full max-w-xl flex-col items-center">
-        {/* Paw Icon */}
+        
+        {/* Paw Icon Section */}
         <div className="mb-8 relative flex items-center justify-center">
-          {/* Glow */}
-          <div className="absolute h-28 w-28 rounded-full bg-[#d6b06b]/20 blur-3xl" />
+          {/* Animated Glow utilizing your primary color theme */}
+          <div className="absolute h-28 w-28 rounded-full bg-primary/10 blur-3xl dark:bg-primary/20" />
 
-          {/* Icon */}
+          {/* Icon Wrapper */}
           <div className="relative animate-pulse">
             <PawPrint
-              className="h-14 w-14 md:h-16 md:w-16 text-[#8B5E0B] fill-[#8B5E0B]"
+              className="h-14 w-14 md:h-16 md:w-16 text-primary fill-primary"
               strokeWidth={1.8}
             />
           </div>
         </div>
 
-        {/* Heading */}
+        {/* Heading & Subtext */}
         <div className="space-y-3">
-          <h1 className="text-[2rem] md:text-[3rem] font-bold tracking-tight text-[#2D1208] leading-tight">
+          <h1 className="text-[2rem] md:text-[3rem] font-bold tracking-tight text-foreground leading-tight">
             Just a Moment...
           </h1>
 
-          <p className="mx-auto max-w-sm text-sm md:text-base text-[#7A675E]">
+          <p className="mx-auto max-w-sm text-sm md:text-base text-muted-foreground">
             We&apos;re finding your perfect companion.
           </p>
         </div>
 
-        {/* Progress Section */}
+        {/* Progress Tracker Section */}
         <div className="mt-12 flex w-full flex-col items-center">
-          {/* Progress Bar */}
-          <div className="relative h-[3px] w-[220px] overflow-hidden rounded-full bg-[#E7D8C8] md:w-[260px]">
+          
+          {/* Progress Track */}
+          <div className="relative h-[4px] w-[220px] overflow-hidden rounded-full bg-secondary md:w-[260px]">
             <div
-              className="absolute left-0 top-0 h-full rounded-full bg-[#D39B2D] transition-all duration-500"
+              className="absolute left-0 top-0 h-full rounded-full bg-primary transition-all duration-500 ease-out shadow-[0_0_8px_rgba(238,186,44,0.5)]"
               style={{ width: `${progress}%` }}
             />
           </div>
 
-          {/* Status */}
-          <div className="mt-4 flex items-center gap-2">
-            <span className="text-[10px] md:text-xs uppercase tracking-[0.25em] text-[#A58A74]">
+          {/* Status Label & Bouncing Indicators */}
+          <div className="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:gap-2">
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.25em] text-muted-foreground font-medium min-h-[16px]">
               {progress >= 100
                 ? "Ready to meet your match"
                 : statuses[statusIndex]}
             </span>
 
-            {/* Dots */}
-            <div className="flex gap-1">
+            {/* Loading Dots */}
+            <div className="flex gap-1.5 items-center h-3">
               <span
-                className="h-1 w-1 animate-bounce rounded-full bg-[#D39B2D]"
+                className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary"
                 style={{ animationDelay: "0s" }}
               />
               <span
-                className="h-1 w-1 animate-bounce rounded-full bg-[#D39B2D]"
+                className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary"
                 style={{ animationDelay: "0.2s" }}
               />
               <span
-                className="h-1 w-1 animate-bounce rounded-full bg-[#D39B2D]"
+                className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary"
                 style={{ animationDelay: "0.4s" }}
               />
             </div>
           </div>
         </div>
 
-        {/* Bottom Image */}
-        <div className="mt-16 opacity-20 transition duration-700 hover:opacity-40">
-          <div className="relative h-40 w-40 overflow-hidden rounded-full border border-[#D8CFC7] grayscale md:h-52 md:w-52">
+        {/* Themed Accent Bottom Image */}
+        <div className="mt-16 opacity-15 transition-all duration-700 hover:opacity-40">
+          <div className="relative h-40 w-40 overflow-hidden rounded-full border border-border grayscale md:h-52 md:w-52 shadow-sm">
             <Image
               src="https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=1200&auto=format&fit=crop"
               alt="Dog"

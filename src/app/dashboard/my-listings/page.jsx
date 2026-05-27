@@ -17,7 +17,6 @@ export default async function MyListingsPage() {
   const email = session?.user?.email;
   const listing = await getUserListing(email, token);
 
-
   const availableListing = listing.filter(
     (list) => list.status === "available",
   );
@@ -42,19 +41,19 @@ export default async function MyListingsPage() {
           </p>
         </div>
 
-        <button className="bg-(--sunray) hover:opacity-90 transition-all text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-md text-sm font-semibold">
-          <Plus size={18} />
-          Add New Pet
-        </button>
+        <Link href={"/dashboard/add-pet"}>
+          <button className="bg-primary hover:opacity-90 cursor-pointer transition-all text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-md text-sm font-semibold">
+            <Plus size={18} />
+            Add New Pet
+          </button>
+        </Link>
       </div>
 
       {/* STATS */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         {/* TOTAL */}
         <div className="bg-card border border-border rounded-2xl shadow-sm p-6 text-center">
-          <h2 className="text-4xl font-bold text-foreground">
-            {listing.length}
-          </h2>
+          <h2 className="text-4xl font-bold text-primary">{listing.length}</h2>
           <p className="uppercase tracking-widest text-xs mt-2 text-muted-foreground">
             Total Listings
           </p>
@@ -72,7 +71,7 @@ export default async function MyListingsPage() {
 
         {/* ADOPTED */}
         <div className="bg-card border border-border rounded-2xl shadow-sm p-6 text-center">
-          <h2 className="text-4xl font-bold text-green-400">
+          <h2 className="text-4xl font-bold text-primary">
             {adoptedListing.length}
           </h2>
           <p className="uppercase tracking-widest text-xs mt-2 text-muted-foreground">
