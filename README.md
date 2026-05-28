@@ -21,13 +21,14 @@ Pawly is a full-stack pet adoption portal that connects adopters with pets avail
 
 ## Key Features
 
+- **Dynamic User Profile Dashboard:** Manage detailed profile fields (bio, experience, phone, location, social handles) with real-time Better Auth session updates and custom MongoDB synchronization.
+- **Premium Custom Loading System:** Custom conic-gradient spinning paw loaders (`Loader.jsx` with inline, section, and page sizes) and route-level `PetLoadingScreen` loaders integrated across all critical routes.
+- **Standardized Notification Flow:** Context-aware `toast.loading -> toast.success / toast.error` flows wired through unique identifiers (`toastId`) for forms, adoption submissions, and admin actions.
 - Browse pets by category, species, and keyword search with dynamic query filtering.
 - Secure authentication with email/password, Google social login, and JWT session management.
 - Pet owner dashboard with listing creation, edit, delete, and request management.
 - Adoption request workflow with approval and rejection controls.
 - Responsive design optimized for mobile, tablet, and desktop screens.
-- Real-time status badges and in-app toast notifications for success/error feedback.
-- Custom 404 page and loading state for polished UX.
 - Featured pets and curated home sections for a recruiter-friendly landing experience.
 
 
@@ -37,8 +38,7 @@ Pawly is a full-stack pet adoption portal that connects adopters with pets avail
 - **Backend:** Node.js, Express (backend repository)
 - **Database:** MongoDB Atlas
 - **Authentication:** Better Auth, JWT, Google OAuth
-- **Deployment:** Vercel (client), Vercel / Render (server)
-- **Styling/UI:** Tailwind CSS v4, HeroUI, Lucide icons, Framer Motion
+- **Styling/UI:** Tailwind CSS v4, HeroUI, Lucide icons, Framer Motion, Next-Themes
 
 
 ## NPM Packages Used
@@ -54,6 +54,7 @@ Pawly is a full-stack pet adoption portal that connects adopters with pets avail
 - `mongodb` → MongoDB database driver.
 - `@heroui/react` → UI components and modal support.
 - `tailwindcss` → Utility-first styling framework.
+- `next-themes` → Light/Dark mode state management.
 
 
 ## Folder Structure
@@ -64,13 +65,29 @@ src/
     (main)/
       page.js
       all-pets/
+        loading.js
         page.jsx
-        [petId]/page.jsx
+        [petId]/
+          loading.js
+          page.jsx
     dashboard/
       layout.js
       page.js
-      add-pet/page.jsx
-      my-listings/page.jsx
+      loading.js
+      add-pet/
+        loading.js
+        page.jsx
+      my-listings/
+        loading.js
+        page.jsx
+        edit/[id]/
+          page.jsx
+      my-requests/
+        loading.js
+        page.jsx
+      profile/
+        loading.js
+        page.js
   components/
     authPages/
       LoginForm.jsx
@@ -82,6 +99,8 @@ src/
       RequestsModal.jsx
       UpdatePetForm.jsx
     ui/
+      Loader.jsx
+      PetLoadingScreen.jsx
       PetCard.jsx
       PetDetailAdoptForm.jsx
       PetSearchSection.jsx
@@ -148,6 +167,8 @@ npm run lint
 
 | Method | Route | Description |
 | --- | --- | --- |
+| GET | `/api/profile` | Fetch database representation of user profile |
+| PUT | `/api/profile` | Update database and Better Auth session details |
 | GET | `/pets` | Fetch all pet listings |
 | GET | `/pets/:id` | Fetch a pet by ID |
 | POST | `/pets` | Create a new listing |
