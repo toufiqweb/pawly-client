@@ -13,9 +13,9 @@ import {
   Save,
   ShieldCheck,
   Heart,
-  Loader2,
   Lock,
 } from "lucide-react";
+import { Loader } from "@/components/ui/Loader";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import toast from "react-hot-toast";
 import Image from "next/image";
@@ -110,14 +110,7 @@ export default function ProfilePage() {
   };
 
   if (isSessionLoading || isLoading) {
-    return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
-        <Loader2 className="h-10 w-10 animate-spin text-primary" />
-        <p className="text-sm text-muted-foreground animate-pulse">
-          Loading your Pawly profile...
-        </p>
-      </div>
-    );
+    return <Loader size="section" />;
   }
 
   if (!session) {
@@ -474,7 +467,7 @@ export default function ProfilePage() {
               >
                 {isSaving ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader size="inline" />
                     Saving Changes
                   </>
                 ) : (

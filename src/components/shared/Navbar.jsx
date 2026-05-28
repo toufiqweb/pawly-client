@@ -6,7 +6,6 @@ import {
   User,
   X,
   LogOut,
-  Loader2,
   LayoutDashboard,
   ChevronDown,
   PlusCircle,
@@ -25,6 +24,7 @@ import { authClient } from "@/lib/auth-client";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import logo from "@/assets/pawlyLogo.png";
+import { Loader } from "@/components/ui/Loader";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -148,7 +148,7 @@ const Navbar = () => {
             {/* Auth Section */}
             {isPending ? (
               <div className="hidden md:flex items-center justify-center w-9 h-9">
-                <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+                <Loader size="inline" />
               </div>
             ) : user ? (
               <div
@@ -226,7 +226,7 @@ const Navbar = () => {
                           className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-destructive rounded-lg hover:bg-destructive/5 dark:hover:bg-destructive/10 transition-colors disabled:opacity-50"
                         >
                           {isLoggingOut ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <Loader size="inline" />
                           ) : (
                             <LogOut className="w-4 h-4" />
                           )}
@@ -338,7 +338,7 @@ const Navbar = () => {
               <div className="pt-2 border-t border-border/30">
                 {isPending ? (
                   <div className="flex justify-center py-2">
-                    <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+                    <Loader size="inline" />
                   </div>
                 ) : user ? (
                   <div className="space-y-3">
@@ -379,7 +379,7 @@ const Navbar = () => {
                       className="h-11 rounded-xl font-medium text-sm transition-transform active:scale-[0.99]"
                     >
                       {isLoggingOut ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <Loader size="inline" />
                       ) : (
                         <LogOut className="w-4 h-4" />
                       )}

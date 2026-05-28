@@ -7,6 +7,7 @@ import { Users } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 import { getPetRequestsByPetId } from "@/lib/data/requests";
+import { Loader } from "@/components/ui/Loader";
 
 export function RequestsModal({ petId }) {
   const sizes = ["lg"];
@@ -117,8 +118,8 @@ export function RequestsModal({ petId }) {
 
             <Modal.Body className="py-5">
               {loading ? (
-                <div className="flex items-center justify-center py-10">
-                  <div className="h-10 w-10 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+                <div className="py-4">
+                  <Loader size="section" />
                 </div>
               ) : petRequests.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
