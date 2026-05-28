@@ -207,49 +207,7 @@ const SuccessStories = () => {
         </Swiper>
       </div>
 
-      {/* Swiper Style */}
-      <style jsx global>{`
-        .testimonial-swiper {
-          padding-bottom: 80px;
-          overflow: visible;
-        }
 
-        .testimonial-swiper .swiper-wrapper {
-          align-items: center;
-        }
-
-        .testimonial-swiper .swiper-slide {
-          transition: all 0.6s ease;
-          opacity: 0.5;
-          transform: scale(0.85);
-        }
-
-        .testimonial-swiper .swiper-slide-active {
-          opacity: 1;
-          transform: scale(1);
-          z-index: 20;
-        }
-
-        .testimonial-swiper .swiper-pagination {
-          bottom: 0 !important;
-        }
-
-        .testimonial-swiper .swiper-pagination-bullet {
-          width: 12px;
-          height: 12px;
-          background: #cbd5e1;
-          opacity: 1;
-          transition: all 0.4s ease;
-        }
-        .testimonial-swiper .swiper-slide {
-          height: auto;
-        }
-        .testimonial-swiper .swiper-pagination-bullet-active {
-          width: 34px;
-          border-radius: 999px;
-          background: #fdb034;
-        }
-      `}</style>
     </section>
   );
 };
