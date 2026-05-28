@@ -81,7 +81,7 @@ const ListingCard = async ({ pet }) => {
           </div>
 
           <div className="col-span-2">
-            <DeleteListingModal petId={pet._id} />
+            <DeleteListingModal petId={pet._id} petName={pet?.petName} />
           </div>
         </div>
       </div>

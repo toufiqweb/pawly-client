@@ -2,12 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Trash2, X } from "lucide-react";
+import { Trash2, X, AlertTriangle } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 
-export default function DeleteListingModal({ petId }) {
+export default function DeleteListingModal({ petId, petName }) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Close on ESC
   useEffect(() => {
@@ -19,6 +24,7 @@ export default function DeleteListingModal({ petId }) {
   }, []);
 
   const handleDelete = async () => {
+    const toastId = toast.loading("Deleting listing...");
     try {
       const { data: tokenData } = await authClient.token();
       const token = tokenData?.token;
@@ -32,16 +38,15 @@ export default function DeleteListingModal({ petId }) {
       );
 
       if (!res.ok) {
-        toast.error("Failed to delete listing");
+        toast.error("Failed to delete listing", { id: toastId });
         return;
       }
-      toast.success("Listing deleted successfully");
+      toast.success("Listing deleted successfully 🐾", { id: toastId });
       setOpen(false);
 
-      // better than reload (optional)
       window.location.reload();
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", { id: toastId });
     }
   };
 
@@ -50,69 +55,66 @@ export default function DeleteListingModal({ petId }) {
       {/* Trigger Button */}
       <button
         onClick={() => setOpen(true)}
-        className="w-full border border-destructive/30 text-destructive
-    hover:bg-destructive/10 transition-all rounded-xl py-2.5 flex items-center 
-    justify-center gap-2 text-sm font-semibold"
+        className="w-full border border-destructive/30 text-destructive hover:bg-destructive/10 transition-all rounded-xl py-2.5 flex items-center justify-center gap-2 text-sm font-semibold cursor-pointer"
       >
         <Trash2 size={18} />
         Delete Listing
       </button>
 
       {/* Modal */}
-      {open &&
+      {open && mounted &&
         createPortal(
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
-            {/* Backdrop */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop Blur */}
             <div
               onClick={() => setOpen(false)}
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
             />
 
-            {/* Dialog */}
-            <div className="relative w-full max-w-md mx-4 bg-card text-card-foreground rounded-2xl shadow-xl p-6 border border-border animate-fadeIn">
+            {/* Dialog Container */}
+            <div className="relative w-full max-w-md bg-card text-card-foreground rounded-3xl shadow-2xl p-6 md:p-8 border border-border/80 z-10 scale-95 animate-in fade-in zoom-in-95 duration-200">
               {/* Close button */}
               <button
                 onClick={() => setOpen(false)}
-                className="absolute top-3 right-3 p-2 rounded-full hover:bg-muted transition"
+                className="absolute top-4 right-4 p-2 rounded-full text-muted-foreground hover:bg-muted/80 hover:text-foreground transition-all duration-200"
               >
                 <X size={18} />
               </button>
 
-              {/* Header */}
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-full bg-destructive/10 text-destructive">
-                  <Trash2 size={18} />
+              {/* Icon & Heading */}
+              <div className="flex flex-col items-center text-center space-y-4 mt-2">
+                <div className="p-3.5 rounded-full bg-destructive/10 text-destructive animate-bounce-short">
+                  <AlertTriangle size={28} />
                 </div>
-                <h2 className="text-lg font-semibold text-foreground">
+                <h3 className="text-xl font-bold text-foreground tracking-tight" style={{ fontFamily: "var(--font-poppins)" }}>
                   Delete listing permanently?
-                </h2>
+                </h3>
               </div>
 
               {/* Body */}
-              <p className="mt-4 text-sm text-muted-foreground">
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground text-center">
                 This action will permanently delete{" "}
-                <span className="font-semibold text-foreground">
-                  My Awesome Project
+                <span className="font-bold text-foreground text-primary">
+                  {petName || "this pet listing"}
                 </span>{" "}
                 and all its data. You can’t undo this action.
               </p>
 
-              {/* Footer */}
-              <div className="mt-6 flex justify-end gap-3">
+              {/* Footer Buttons */}
+              <div className="mt-8  flex flex-col sm:flex-row gap-3 justify-center">
                 <button
                   onClick={() => setOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-border text-sm 
-              hover:bg-muted transition text-foreground"
+                  className="w-full sm:w-auto order-2 sm:order-1 px-5 py-2.5 rounded-xl border border-border text-sm font-semibold hover:bg-muted text-foreground transition-all cursor-pointer"
                 >
                   Cancel
                 </button>
 
                 <button
                   onClick={handleDelete}
-                  className="px-4 py-2 rounded-xl bg-destructive text-destructive-foreground 
-              text-sm hover:opacity-90 transition"
+                  className="w-full sm:w-auto order-1 sm:order-2 px-6 py-2.5 rounded-xl bg-destructive text-destructive-foreground text-sm font-semibold hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  Delete
+                  <Trash2 size={15} />
+                  Delete Listing
                 </button>
               </div>
             </div>
