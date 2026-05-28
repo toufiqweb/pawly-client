@@ -12,6 +12,7 @@ import {
   CirclePlus,
   PawPrint,
   LogOut,
+  User,
 } from "lucide-react";
 
 import { authClient } from "@/lib/auth-client";
@@ -43,6 +44,11 @@ export default function MobileSidebar() {
       href: "/dashboard/my-listings",
       label: "My Listings",
       icon: PawPrint,
+    },
+    {
+      href: "/dashboard/profile",
+      label: "Profile Settings",
+      icon: User,
     },
   ];
 
