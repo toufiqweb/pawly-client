@@ -41,6 +41,8 @@ export function RequestsModal({ petId }) {
 
   // UPDATE REQUEST STATUS
   const handleStatus = async (id, status) => {
+    const label = status === "approved" ? "Approving" : "Rejecting";
+    const toastId = toast.loading(`${label} request...`);
     try {
       setActionLoading(id);
 
@@ -65,10 +67,13 @@ export function RequestsModal({ petId }) {
       if (res.ok) {
         await getPetRequests(petId);
 
-        toast.success(`Request ${status}`);
+        const emoji = status === "approved" ? "✅" : "❌";
+        toast.success(`Request ${status} ${emoji}`, { id: toastId });
+      } else {
+        toast.error(data.message || "Failed to update request", { id: toastId });
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", { id: toastId });
       setActionLoading(null);
     }
   };

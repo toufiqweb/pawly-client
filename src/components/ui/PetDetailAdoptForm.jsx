@@ -22,6 +22,7 @@ const PetDetailAdoptForm = ({ pet, token }) => {
   const handleAdopt = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const toastId = toast.loading("Sending adoption request...");
     const formData = new FormData(e.target);
     const adoptionFormData = Object.fromEntries(formData.entries());
 
@@ -57,10 +58,10 @@ const PetDetailAdoptForm = ({ pet, token }) => {
     const data = await res.json();
     setLoading(false);
     if (data.insertedId) {
-      toast.success("Request Sent");
+      toast.success("Adoption request sent! 🐾", { id: toastId });
       setIsSubmitted(true); // ✅ hide form
     } else {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", { id: toastId });
     }
   };
 

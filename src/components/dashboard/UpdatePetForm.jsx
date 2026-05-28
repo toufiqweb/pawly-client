@@ -45,32 +45,34 @@ export default function UpdatePetForm({ pet }) {
       ownerEmail: user?.email,
     };
 
+    const toastId = toast.loading("Updating pet listing...");
+    setLoading(true);
     try {
-      setLoading(true);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/pets/${petId}`,
         {
           method: "PATCH",
           headers: {
-            "Content-Type": "application/json",
+            "content-type": "application/json",
             authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(petData),
         },
       );
 
-      const result = await res.json();
-
-      setLoading(false);
-      if (res.ok) {
-        toast.success("Pet updated successfully!");
-        router.push("/dashboard/my-listings");
-        router.refresh();
-      } else {
-        toast.error(result?.message || "Update failed!");
+      if (!res.ok) {
+        const err = await res.json();
+        toast.error(err.message || "Failed to update listing", { id: toastId });
+        return;
       }
+
+      toast.success("Pet listing updated successfully 🐾", { id: toastId });
+      router.refresh()
+      router.back();
     } catch (error) {
-      toast.error("Something went wrong!");
+      toast.error("Something went wrong", { id: toastId });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -307,10 +309,11 @@ export default function UpdatePetForm({ pet }) {
 
           <button
             type="submit"
-            className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-semibold shadow-md hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2"
+            disabled={loading}
+            className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-semibold shadow-md hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <CheckCircle className="w-5 h-5" />
-            Update Pet Listing
+            {loading ? "Updating..." : "Update Pet Listing"}
           </button>
         </div>
       </form>
