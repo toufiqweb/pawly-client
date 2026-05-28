@@ -8,12 +8,12 @@ import React from "react";
 const AllPetsPage = async ({ searchParams }) => {
   const sParams = await searchParams;
   const queryString = new URLSearchParams(sParams).toString();
-  
+
   // 2. Adjust de-structuring depending on how your data API yields its values
-  const { pets, totalPages } = await getAllPets(queryString); 
+  const { pets, totalPages } = await getAllPets(queryString);
 
   return (
-    <section className="bg-background ">
+    <section className="bg-background pt-20">
       <div className="max-w-7xl mx-auto">
         <PetSearchSection />
 

@@ -25,7 +25,7 @@ const PetDetailsPage = async ({ params }) => {
   const userEmail = session?.user?.email;
 
   return (
-    <main className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-14 bg-background">
+    <main className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-20 bg-background ">
       {/* BACK BUTTON */}
       <div className="mb-6">
         <Link

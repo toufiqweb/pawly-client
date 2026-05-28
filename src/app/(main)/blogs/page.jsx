@@ -93,7 +93,7 @@ const BlogsPage = () => {
   const activeCategory = "All";
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-300">
+    <div className="min-h-screen bg-background pt-20 text-foreground font-sans transition-colors duration-300">
       {/* Main Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Section Heading */}
@@ -109,7 +109,7 @@ const BlogsPage = () => {
         </div>
 
         {/* 1. HERO AREA: Big Featured Magazine Card */}
-        <section className="mb-16">
+        <section className="mb-16 ">
           <div className="bg-card rounded-3xl overflow-hidden border border-border shadow-lg grid grid-cols-1 lg:grid-cols-12">
             {/* Hero Image Viewport */}
             <div className="lg:col-span-7 relative h-64 sm:h-96 lg:h-full min-h-[380px] overflow-hidden group">
@@ -186,11 +186,10 @@ const BlogsPage = () => {
             {categories.map((category) => (
               <button
                 key={category}
-                className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 border ${
-                  activeCategory === category
+                className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 border ${activeCategory === category
                     ? "bg-primary text-primary-foreground border-primary shadow-sm"
                     : "bg-card text-muted-foreground border-border hover:bg-secondary hover:text-foreground"
-                }`}
+                  }`}
               >
                 {category}
               </button>

@@ -35,13 +35,13 @@ const Banner = () => {
 
   useEffect(() => {
     setMounted(true);
-    
+
     const checkTheme = () => {
       const isDark = document.documentElement.classList.contains("dark");
       setIsDarkMode(isDark);
     };
 
-    checkTheme(); 
+    checkTheme();
 
     const observer = new MutationObserver(checkTheme);
     observer.observe(document.documentElement, {
@@ -55,7 +55,7 @@ const Banner = () => {
   const currentSlides = isDarkMode ? slidesDark : slidesLight;
 
   if (!mounted) {
-    return <section className="relative h-[70vh] md:h-[80vh] lg:h-screen w-full bg-background" />;
+    return <section className="relative h-[70vh] md:h-[80vh] lg:h-screen w-full bg-background " />;
   }
 
   return (

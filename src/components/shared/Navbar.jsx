@@ -72,11 +72,10 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`w-full z-50 transition-all duration-300 ${
-        isHomePage
-          ? "absolute top-0 left-0 bg-transparent"
-          : "sticky top-0 bg-background/40 backdrop-blur-md border-b border-border/40 shadow-sm"
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isHomePage
+        ? "bg-transparent"
+        : "bg-background/40 backdrop-blur-md border-b border-border/40 shadow-sm"
+        }`}
     >
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(var(--primary-rgb),0.03),transparent_45%)] pointer-events-none" />
 
@@ -111,7 +110,7 @@ const Navbar = () => {
               />
             </NavLinks>
             <NavLinks href="/blogs">
-              <MenuLinkIcon
+              <MobileMenuLinkIcon
                 icon={NotebookPen}
                 label="Blogs"
                 currentPath={pathname}
@@ -178,9 +177,8 @@ const Navbar = () => {
                   </span>
 
                   <ChevronDown
-                    className={`w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground transition-transform duration-200 ${
-                      profileOpen ? "rotate-180" : ""
-                    }`}
+                    className={`w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground transition-transform duration-200 ${profileOpen ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
 
@@ -210,11 +208,10 @@ const Navbar = () => {
                         <Link
                           href="/dashboard"
                           onClick={() => setProfileOpen(false)}
-                          className={`flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg transition-colors ${
-                            pathname === "/dashboard"
-                              ? "bg-primary/10 text-primary font-medium"
-                              : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-                          }`}
+                          className={`flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg transition-colors ${pathname === "/dashboard"
+                            ? "bg-primary/10 text-primary font-medium"
+                            : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                            }`}
                         >
                           <LayoutDashboard className="w-4 h-4" />
                           <span>Dashboard</span>
@@ -294,7 +291,7 @@ const Navbar = () => {
                   />
                 </NavLinks>
                 <NavLinks href="/blogs">
-                  <MenuLinkIcon
+                  <MobileMenuLinkIcon
                     icon={NotebookPen}
                     label="Blogs"
                     currentPath={pathname}
@@ -417,11 +414,10 @@ const MenuLinkIcon = ({
   const active = isActive || currentPath === targetPath;
   return (
     <div
-      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-        active
-          ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20"
-          : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-      }`}
+      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${active
+        ? "bg-primary text-primary-foreground shadow-sm shadow-primary/20"
+        : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+        }`}
     >
       <Icon className="w-3.5 h-3.5" />
       <span>{label}</span>
@@ -440,11 +436,10 @@ const MobileMenuLinkIcon = ({
   const active = isActive || currentPath === targetPath;
   return (
     <div
-      className={`flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-        active
-          ? "bg-primary/10 text-primary"
-          : "hover:bg-muted/50 text-muted-foreground hover:text-foreground"
-      }`}
+      className={`flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${active
+        ? "bg-primary/10 text-primary"
+        : "hover:bg-muted/50 text-muted-foreground hover:text-foreground"
+        }`}
     >
       <Icon className="w-4 h-4" />
       <span>{label}</span>
