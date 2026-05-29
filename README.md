@@ -17,7 +17,7 @@ Pawly is a full-stack pet adoption portal that connects adopters with pets avail
 
 ## Website Mockup
 
-![Mockup](https://i.ibb.co.com/rhnP9vm/pawly-Mockup.png)
+![Mockup](https://i.ibb.co.com/j9JmZPJg/pawlycc.png)
 
 ## Key Features
 
